@@ -1,0 +1,179 @@
+.detail {
+  width: 100%;
+  height: 100%;
+  background-color: #e3e3e3;
+  --van-nav-bar-text-color: #fff;
+  --van-nav-bar-icon-color:#fff;
+  --van-nav-bar-title-text-color: #fff;
+  --van-nav-bar-z-index: 999;
+  --van-nav-bar-arrow-size: 20px;
+  /deep/ .van-nav-bar {
+    background-color: v-bind(navBackground);
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
+    .van-nav-bar__content>div{
+      position: unset;
+      flex-shrink: 0;
+      flex-grow: 0;
+    }
+    &.show{
+      .van-nav-bar__title{
+        margin-top: 0;
+        opacity: 1;
+      }
+    }
+    .van-nav-bar__title {
+      margin: 48px 0 0 0;
+      width: 100%;
+      max-width: 100%;
+      flex-grow: 1 !important;
+      flex-shrink: 1 !important;
+      height: 46px;
+      display: flex;
+      padding: 6px 0;
+      opacity: 0;
+      transition: opacity .25s, margin-top .25s;
+      img {
+        flex-shrink: 0;
+        flex-grow: 0;
+        height: 100%;
+        margin-right: 5px;
+      }
+      .text {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        letter-spacing: 1px;
+        .title {
+          height: 17px;
+          font-size: 14px;
+          line-height: 100%;
+        }
+
+        .type {
+          height: 17px;
+          font-size: 11px;
+          color: #ebedf0;
+        }
+      }
+    }
+  }
+
+  main {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    .title-container{
+      overflow: hidden;
+      width: 100%;
+      height: 220px;
+      background-color: rgba(0,0,0,0.8);
+      position: relative;
+      z-index: 1;
+      .book-cover-blur{
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        opacity: 0.6;
+        filter: blur(20px);
+      }
+      .title-body{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 62px 16px 36px 16px;
+        display: flex;
+        overflow: hidden;
+        img{
+          height: 100%;
+          border-radius: 3px;
+        }
+        .text{
+          width: 100%;
+          color: #ffffff;
+          overflow: hidden;
+          letter-spacing: 1px;
+          padding: 21px 0 21px 10px;
+          .title{
+            font-size: 20px;
+            line-height: 32px;
+            width: 100%;
+          }
+          .author{
+            color: var(--van-gray-3);
+            font-size: 14px;
+            line-height: 24px;
+          }
+          .type{
+            color: var(--van-gray-5);
+            line-height: 24px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    .body-container{
+      margin-top: -16px;
+      padding: 16px;
+      position: relative;
+      width: 100%;
+      background-color: #ffffff;
+      border-radius: 22px 22px 0 0;
+      z-index: 2;
+      .tags{
+        width: 100%;
+        display: flex;
+        overflow: auto;
+        &::-webkit-scrollbar{
+          display: none;
+        }
+        .tag{
+          flex-shrink: 0;
+          background-color: var(--van-gray-2);
+          color: var(--van-gray-6);
+          font-size: 14px;
+          padding: 3px 13px;
+          height: 26px;
+          line-height: 20px;
+          border-radius: 13px;
+        }
+      }
+      .dir{
+        width: 100%;
+        height: 28px;
+        line-height: 28px;
+        display: flex;
+        justify-content: space-between;
+        .title{
+          font-size: 18px;
+          flex-shrink: 0;
+          flex-grow: 0;
+        }
+        .van-icon{
+          flex-shrink: 0;
+          flex-grow: 0;
+          line-height: 28px;
+        }
+        .times{
+          flex-shrink: 0;
+          flex-grow: 0;
+          color: var(--van-gray-6);
+          font-size: var(--van-font-size-md);
+        }
+        .text{
+          width: 100%;
+          color: var(--van-gray-6);
+          font-size: var(--van-font-size-md);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,168 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+}
+button{
+    /* 清除默认边框 */
+    border:0;
+    outline:none;
+    /*清除默认背景 */
+    background-color: transparent;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/*******************************************************************************************************************/
+
+:root {
+    /*************    主题/辅助颜色    *************/
+    --color-primary: #409EFF; /*主题*/
+    --color-primary-sub1: rgb(217, 236, 255);
+    --color-primary-sub2: rgb(236, 245, 255);
+    --color-Success: #67C23A; /*成功*/
+    --color-Success-sub1: rgb(225, 243, 216);
+    --color-Success-sub2: rgb(240, 249, 235);
+    --color-Warning: #E6A23C; /*警告*/
+    --color-Warning-sub1: rgb(250, 236, 216);
+    --color-Warning-sub2: rgb(253, 246, 236);
+    --color-Danger: #F56C6C; /*危险/失败*/
+    --color-Danger-sub1: rgb(253, 226, 226);
+    --color-Danger-sub2: rgb(254, 240, 240);
+    --color-Info: #909399; /*信息*/
+    --color-Info-sub1: rgb(233, 233, 235);
+    --color-Info-sub2: rgb(244, 244, 245);
+    /*************    文字相关    *************/
+    --text-color-primary: #303133; /*标题文字颜色*/
+    --text-color-regular: #606266; /*正常文字颜色*/
+    --text-color-secondary: #909399; /*次要文字颜色*/
+    --text-color-placeholder: #C0C4CC; /*占位文字颜色*/
+    --text-size-1: 20px; /*主标题	*/
+    --text-size-2: 18px; /*标题*/
+    --text-size-3: 16px; /*小标题*/
+    --text-size-4: 14px; /*正文*/
+    --text-size-5: 13px; /*正文（小）*/
+    --text-size-6: 12px; /*辅助文字*/
+    --family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif; /*字体*/
+    /*************    边框颜色    *************/
+    --border-color-base: #DCDFE6; /*一级边框颜色*/
+    --border-color-light: #E4E7ED; /*二级边框颜色*/
+    --border-color-lighter: #EBEEF5; /*三级边框颜色*/
+    --border-color-extralight: #F2F6FC; /*四级边框颜色*/
+    /*************    背景颜色    *************/
+    --background-color-b: #000000;
+    --background-color-w: #FFFFFF;
+    --background-color: #f5f5f5;
+    --background-color-t: transparent; /*透明背景*/
+    /*************    阴影颜色    *************/
+    --color-shadow-base: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    --color-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    --size-border-radius: 3px;
+    /*************    行高    *************/
+    --line-height-none: 1; /*无行高*/
+    --line-height-1: 1.3; /*紧凑*/
+    --line-height-2: 1.5; /*常规*/
+    --line-height-3: 1.7; /*宽松*/
+}
+
+/*****************************/
+.scrollbar::-webkit-scrollbar { /** 右侧部滑动条宽度 **/
+    width: 8px; /** 下部滑动条高度 **/
+    height: 0;
+    background-color: #eee;
+}
+
+/** 滑块样式 **/
+.scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #cbcbcb;
+}
+
+/*****************************/
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+ul,
+li {
+    list-style-type: none;
+}
+
+* {
+    /* 一、取消a标签在移动端点击时的蓝色 */
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-user-select: none;
+    -moz-user-focus: none;
+    -moz-user-select: none;
+    /* ================================ */
+
+    /* 不可选中 */
+    -khtml-user-select: none;
+    user-select: none;
+    /* ================================ */
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/************  iconfont居中  *****************************/
+.iconfont {
+    /*position: relative;*/
+    font-size: inherit;
+}
+
+.iconfont:before {
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+}
+
+/************  iconfont居中  *****************************/
