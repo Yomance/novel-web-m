@@ -1,6 +1,7 @@
+import { Token } from './../../api/token';
 import {downloader, http} from "../../api";
 import {LoginParam, TokenModel} from "./type";
-import {useUserStore} from "../mine/store";
+import token from "../../api/token";
 
 const key = "111";
 
@@ -17,5 +18,5 @@ export const getImageCode = () => {
     })
 };
 
-export const login = (data: LoginParam) => http.post<any, TokenModel>("/login", data);
+export const login = (data: LoginParam) => http.post<any, Token>("/login", data);
 

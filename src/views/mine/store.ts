@@ -1,6 +1,7 @@
+import { Token } from './../../api/token';
 import {defineStore} from "pinia";
-import {TokenModel} from "../login/type";
 import {http} from "../../api";
+import tokenStore from "../../api/token";
 
 
 export const useUserStore = defineStore({
@@ -21,7 +22,7 @@ export const useUserStore = defineStore({
     }),
     getters: {
         isLogin(): boolean {
-            return this.tokenValue != null && this.tokenValue.length > 0;
+            return tokenStore.isLogin;
         },
         readTimeString(): string {
             if (this.isLogin) {
@@ -39,12 +40,9 @@ export const useUserStore = defineStore({
     },
     actions: {
         // 登陆方法 主要记录用户token
-        login(token: TokenModel) {
-            console.log(token)
-            // todo
-            this.tokenValue = token.value;
-            this.tokenName = token.name || "token";
-            this.tokenTimeout = token.timeout;
+        login(token: Token) {
+            tokenStore.set(token);
+            console.log(token);
             return this.loadUserInfo();
         },
         loadUserInfo() {
@@ -58,6 +56,7 @@ export const useUserStore = defineStore({
         },
         logout() {
             this.$reset();
+            tokenStore.logout();
         }
     },
     persist: {

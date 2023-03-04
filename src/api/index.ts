@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios, { AxiosHeaders } from "axios";
 import {useUserStore} from "../views/mine/store";
+import token from "./token";
 
 export interface Result<D> {
     code: number,
@@ -15,7 +16,7 @@ export interface Page<D> {
     data: D[];// 数据
 }
 
-const ConfigBaseURL = 'http://192.168.31.2:2080' //默认路径，这里也可以使用env来判断环境
+const ConfigBaseURL = 'http://localhost:2080' //默认路径，这里也可以使用env来判断环境
 // const ConfigBaseURL = '/novel4j/api' //默认路径，这里也可以使用env来判断环境
 
 export const downloader = axios.create({
@@ -31,16 +32,12 @@ const instance = axios.create({
         'Content-Type': 'application/json;charset=UTF-8'
     }
 })
-let userStore: any;
-
-
 // 添加请求拦截器
 instance.interceptors.request.use(config => {
-    if (!userStore) userStore = useUserStore();
     // @ts-ignore
     config.headers = {
         ...config.headers,
-        [userStore.tokenName]:userStore.tokenValue,
+        [token.name]:token.value,
     }
     return config;
 })

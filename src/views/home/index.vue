@@ -70,7 +70,7 @@ const randomPage = {
   size: 8,
 }
 const onDownLoad = () => {
-  http.get<Page<Book>, Page<Book>>("/home-page/random", {
+  http.get<Page<Book>, Page<Book>>("/home-page/r", {
     params: randomPage
   }).then(e => {
     randomPage.current = e.current + 1;
