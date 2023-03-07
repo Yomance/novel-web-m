@@ -2,14 +2,14 @@
   <div class="classify-view  no-scroll-bar">
     <status-bar background="var(--background-color)" color="black" fixed/>
     <van-space direction="vertical" fill size="16px">
-      <van-tabs shrink type="card" @change="loadData">
+      <!-- <van-tabs shrink type="card" @change="loadData">
         <van-tab title="男生"/>
         <van-tab title="女生"/>
-      </van-tabs>
+      </van-tabs> -->
       <van-loading v-if="pageLoading" size="24px" vertical>加载中...</van-loading>
       <div v-else>
         <van-space direction="vertical" fill size="16px">
-          <simple-card title="按热门分类">
+          <simple-card title="热门分类">
             <div class="grid">
               <div v-for="item in category" class="item" @click="onClick('category', item.name, item.id)">
                 <div class="text">{{ item.name }}</div>
@@ -20,11 +20,11 @@
               </div>
             </div>
           </simple-card>
-          <simple-card title="按情节分类">
+          <!-- <simple-card title="按情节分类">
             <div class="grid-1">
               <div v-for="item in tags" class="item" @click="onClick('tag', item.name, item.id)">{{ item.name }}</div>
             </div>
-          </simple-card>
+          </simple-card> -->
         </van-space>
       </div>
     </van-space>

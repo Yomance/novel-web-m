@@ -8,7 +8,7 @@
       <div class="desc van-multi-ellipsis--l2">{{book.description}}</div>
       <div class="tags">
         <van-space>
-          <van-tag color="#EBEFFF" text-color="#4C6DE4">{{ book.writeState.label }}</van-tag>
+          <!-- <van-tag color="#EBEFFF" text-color="#4C6DE4">{{ book.writeState.label }}</van-tag> -->
           <van-tag color="#F2F9E4" text-color="#66B105">{{ book.category.name }}</van-tag>
           <van-tag color="#FFFADF" text-color="#D5A300">{{ book.tags[0]?.name }}</van-tag>
         </van-space>

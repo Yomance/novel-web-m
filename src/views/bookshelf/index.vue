@@ -1,69 +1,9 @@
 <template>
   <div class="bookshelf-view" @scroll="e">
-    <div class="header">
-      <div class="header-fixed">
-        <status-bar/>
-        <van-grid :border="false" column-num="3" icon-size="20">
-          <van-grid-item :to="{name: 'Search'}" icon="search" text="搜索"/>
-          <van-grid-item icon="underway-o" text="历史" @click="mastLogin({name:'History'})"/>
-          <van-grid-item icon="edit" text="编辑" @click="onShowEdit"/>
-        </van-grid>
-      </div>
-    </div>
-
-    <status-bar/>
-    <div class="times">
-      <div class="left">
-        <div class="time">{{ userStore.readTimeString }}</div>
-        <div class="desc">{{ userStore.readTimeDesc }}</div>
-      </div>
-      <button class="right">
-        <span
-            v-if="!checkInStore.isCheckIn"
-            class="btn"
-            @click="checkInStore.checkIn()"
-        >签到</span>
-      </button>
-    </div>
+    <yun-header @edit="onShowEdit"/>
     <div class="body">
-      <van-empty v-if="!userStore.isLogin" description="登陆后查看书架" image="error">
-        <van-button
-            round
-            style="width: 200px"
-            type="primary"
-            @click="router.push({name:'Login'})"
-        >去登陆
-        </van-button>
-      </van-empty>
-      <button v-else-if="bookshelfStore.empty && bookshelfStore.loading" style="width: 100%; height: 100%">
-        <van-loading size="24px">加载中...</van-loading>
-      </button>
-      <van-empty v-else-if="bookshelfStore.empty" description="空荡荡的书架等你来填满">
-        <van-button
-            round size="small"
-            style="width: 100px"
-            type="danger"
-            @click="router.push({name:'Home'})"
-        >去书城
-        </van-button>
-      </van-empty>
-      <div v-else class="book-list">
-        <div
-            v-for="item in bookshelfStore.books"
-            v-longpress="()=>{showEdit = true;onItemClick(item)}"
-            class="item"
-            @click="onItemClick(item)"
-        >
-          <img :alt="item.name" :src="item.cover">
-          <div class="name van-multi-ellipsis--l2">{{ item.name }}</div>
-          <button v-if="showEdit" :class="{active: item.isSelect}" class="select">
-            <van-icon name="success" size="18"/>
-          </button>
-        </div>
-        <button v-if="!showEdit" class="more" @click="router.push({name:'Home'})">
-          <van-icon name="plus" size="35"/>
-        </button>
-      </div>
+      <yun-empty />
+      <yun-book-list @click="onItemClick" :list="bookshelfStore.books" v-model:is-edit="showEdit" />
     </div>
   </div>
   <van-popup v-model:show="showEdit" :overlay="false" position="top">
@@ -85,18 +25,20 @@
 </template>
 
 <script lang="ts" setup>
-import {onUnmounted, ref, watch} from "vue";
+import {ref} from "vue";
 import {useRouter} from "vue-router";
 import {useBookshelfStore} from "./store";
-import {useCheckInStore} from "../check-in/store";
 import {useUserStore} from "../mine/store";
-import {mastLogin} from "../../util/router";
 import {showToast} from "vant";
 import StatusBar from "../../components/StatusBar.vue";
 
+import YunHeader from './src/hrader.vue';
+import YunEmpty from './src/empty.vue';
+import YunBookList from './src/book-list.vue';
+import { Book } from "../../type/book";
+
 const router = useRouter();
 const userStore = useUserStore();
-const checkInStore = useCheckInStore();
 const bookshelfStore = useBookshelfStore();
 
 bookshelfStore.loadData();
@@ -125,7 +67,7 @@ const onShowEdit = () => {
   showEdit.value = true;
 }
 const showEdit = ref(false);
-const onItemClick = (e: any) => {
+const onItemClick = (e: Book) => {
   if (bookshelfStore.loading) return;
   if (showEdit.value) {
     let size = (e.isSelect = !e.isSelect) ? 1 : -1;
@@ -178,136 +120,12 @@ router.onBack = () => {
     display: none;
   }
 
-  .header {
-    height: 60px;
-
-    .header-fixed {
-      width: 100%;
-      position: fixed;
-      z-index: 10;
-      top: 0;
-      right: 0;
-      float: right;
-      padding-right: 16px;
-      background: v-bind(headerBackground);
-
-      /deep/ .van-grid {
-        width: 150px;
-        float: right;
-      }
-
-      /deep/ .van-grid-item, /deep/ .van-grid-item__content {
-        height: 60px;
-        width: 50px;
-        background: none;
-
-        .van-grid-item__text {
-          margin-top: 4px;
-        }
-      }
-    }
-  }
-
-  .times {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 24px;
-
-    .left {
-      padding: 10px;
-
-      .time {
-        font-weight: bold;
-        height: 40px;
-        font-size: 32px;
-        line-height: 40px;
-      }
-
-      .desc {
-        height: 20px;
-        font-size: 14px;
-        line-height: 20px;
-        color: var(--text-color-placeholder);
-      }
-    }
-
-    .right {
-      padding-right: 10px;
-
-      .btn {
-        height: 32px;
-        border-radius: 16px;
-        padding: 6px 18px;
-        background: #ffffff;
-        color: var(--color-Danger);
-      }
-    }
-  }
-
   .body {
     border-radius: 16px 16px 0 0;
     padding: 16px;
     background-color: var(--background-color-w);
     display: grid;
     min-height: calc(100% - 140px);
-
-    .book-list {
-      width: 100%;
-      height: auto;
-      display: grid;
-      grid-template-columns: repeat(3, 90px);
-      grid-row-gap: 16px;
-      justify-content: space-between;
-
-      .item {
-        width: 90px;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-
-        .select {
-          position: absolute;
-          top: 5px;
-          right: 5px;
-          background: #FFFFFF;
-          width: 24px;
-          height: 24px;
-          border-radius: 100%;
-          padding: 0;
-          border: 1px solid var(--border-color-light);
-          color: #FFFFFF;
-
-          &.active {
-            background-color: orangered;
-            border-color: orangered;
-          }
-        }
-
-        img {
-          width: 90px;
-          height: 120px;
-          border-radius: 4px;
-          margin-bottom: 6px;
-        }
-
-        .name {
-          color: var(--text-color-primary);
-          font-size: 14px;
-          line-height: 20px;
-          font-weight: bold;
-        }
-      }
-
-      .more {
-        width: 90px;
-        border-radius: 4px;
-        height: 120px;
-        border: 1px solid var(--border-color-light);
-        color: var(--border-color-light);
-      }
-    }
   }
 }
 </style>

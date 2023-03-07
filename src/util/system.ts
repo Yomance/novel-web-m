@@ -43,7 +43,6 @@ export interface System {
 
 class SystemImpl implements System{
     brightness(size:number){
-        console.error("not have implements!");
     }
     getSystemBrightness(){
         return -1;
@@ -53,7 +52,6 @@ class SystemImpl implements System{
     }
 
     dp2px(dpValue: number): number {
-        console.error("not have implements!");
         return 0;
     }
 
@@ -62,12 +60,10 @@ class SystemImpl implements System{
     }
 
     px2dp(pxValue: number): number {
-        console.error("not have implements!");
         return 0;
     }
 
     setStatusBarColor(color: boolean): void {
-        console.error("not have implements!");
     }
 }
 
