@@ -30,11 +30,16 @@
 </template>
 <script setup lang="ts">
 import { mastLogin } from "../../../util/router";
-import { ref } from "vue";
+import { defineProps, defineEmits } from "vue";
 import { useUserStore } from "../../mine/store";
 const userStore = useUserStore();
 const emit = defineEmits(["edit"]);
-const bgc = ref("#ffffff");
+defineProps({
+  bgc: {
+    type: String,
+    default: "",
+  },
+});
 </script>
 <style lang="less" scoped>
 .header {
@@ -54,12 +59,16 @@ const bgc = ref("#ffffff");
       width: 150px;
       float: right;
     }
+    /deep/.van-grid-item {
+      padding: 0 !important;
+    }
 
     /deep/ .van-grid-item,
     /deep/ .van-grid-item__content {
-      height: 60px;
+      height: 52px;
       width: 50px;
       background: none;
+      padding: 0;
 
       .van-grid-item__text {
         margin-top: 4px;

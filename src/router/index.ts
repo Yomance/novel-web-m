@@ -74,7 +74,9 @@ const router = createRouter({
     routes
 });
 
-router.onBack = () => true;
+const DEFAULT_BACK = ()=>true;
+
+router.onBack = DEFAULT_BACK;
 declare module 'vue-router' {
     interface Router {
         onBack: () => boolean;
@@ -82,7 +84,11 @@ declare module 'vue-router' {
 }
 
 router.beforeEach((to, from, next) => {
-    next(router.onBack());
+    let n = router.onBack();
+    if(n){
+        router.onBack = DEFAULT_BACK;
+    }
+    next(n);
 })
 
 

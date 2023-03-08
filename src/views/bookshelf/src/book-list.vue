@@ -7,7 +7,7 @@
     >
       <img :alt="item.name" :src="item.cover" />
       <div class="name van-multi-ellipsis--l2">{{ item.name }}</div>
-      <button v-if="isEdit" :class="{ active: item.isSelect }" class="select">
+      <button v-if="isEdit" :class="{ active: selectIds.has(item.id) }" class="select">
         <van-icon name="success" size="18" />
       </button>
     </div>
@@ -30,6 +30,10 @@ defineProps({
     type: Array as PropType<Book[]>,
     default: [],
   },
+  selectIds:{
+    type: Set as PropType<Set<string>>,
+    default: new Set()
+  }
 });
 const emit = defineEmits(["update:isEdit", "click"]);
 </script>
