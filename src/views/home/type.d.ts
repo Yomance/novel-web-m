@@ -1,8 +1,8 @@
 import {Book} from "../../type/book";
 
 export interface Banner{
-    image:string,
-    link?:string,
+    img:string;
+    src:string;
 }
 
 export interface HomeViewModel {

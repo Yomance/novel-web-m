@@ -1,7 +1,7 @@
 <template>
   <van-swipe :autoplay="2000" class="home-banner" indicator-color="white">
     <van-swipe-item v-for="item in value" class="banner-item" @click="onBannerClick(item)">
-      <img :src="item.image" alt="" class="banner-image">
+      <img :src="item.img" alt="" class="banner-image">
     </van-swipe-item>
   </van-swipe>
 </template>
