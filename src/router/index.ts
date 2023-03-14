@@ -65,6 +65,18 @@ const routes: RouteRecordRaw[] = [
         path: '/login',
         name: 'Login',
         component: () => import('../views/login/index.vue')
+    },{
+        path: '/toAuthor',
+        name: 'ToAuthor',
+        component: ()=> import('../views/to-author/index.vue')
+    },{
+        path: '/toAuthorFrom',
+        name: 'ToAuthorFrom',
+        component: ()=> import('../views/to-author-from/index.vue')
+    },{
+        path: '/toAuthorDetail',
+        name: 'ToAuthorDetail',
+        component: ()=> import('../views/to-author-detail/index.vue')
     }
 ]
 

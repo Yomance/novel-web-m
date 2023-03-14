@@ -38,7 +38,7 @@
         <van-cell icon="cart-o" title="我的藏书" value="1"/>
         <van-cell icon="like-o" title="想读"/>
         <van-cell icon="comment-o" title="想法" value="5"/>
-        <van-cell icon="point-gift-o" title="奖品"/>
+        <van-cell icon="point-gift-o" title="成为作者" @click="router.push({name:'ToAuthor'})"/>
       </van-cell-group>
       <van-button v-if="store.isLogin" block @click="store.logout()">退出登录</van-button>
       <van-button v-else block type="success" @click="router.push({name:'Login'})">去登录</van-button>
