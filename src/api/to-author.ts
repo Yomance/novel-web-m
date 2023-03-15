@@ -23,6 +23,7 @@ export interface AuthorAudit {
     gender: string;
     name: string;
     state: AuthorAuditState;
+    errMsg:string;
 }
 
 

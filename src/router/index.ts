@@ -1,84 +1,13 @@
-import {createRouter, createWebHistory, Router, RouteRecordRaw} from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
+import routes from "./route";
 
-
-const routes: RouteRecordRaw[] = [
-    {
-        path: '/main',
-        name: 'Main',
-        alias: '/',
-        component: () => import('../views/main/index.vue'),
-        children: [
-            {
-                path: 'home',
-                alias: '',
-                name: 'Home',
-                component: () => import('../views/home/index.vue')
-            }, {
-                path: 'mine',
-                name: 'Mine',
-                component: () => import('../views/mine/index.vue')
-            }, {
-                path: 'classify',
-                name: 'Classify',
-                component: () => import('../views/classify/index.vue')
-            }, {
-                path: 'bookshelf',
-                name: 'Bookshelf',
-                component: () => import('../views/bookshelf/index.vue')
-            },
-        ]
-    },
-    {
-        path: '/detail',
-        name: 'Detail',
-        component: () => import('../views/detail/index.vue')
-    },
-    {
-        path: '/classify-result',
-        name: 'ClassifyResult',
-        component: () => import('../views/classify-result/index.vue')
-    }, {
-        path: '/history',
-        name: 'History',
-        component: () => import('../views/history/index.vue')
-    }, {
-        path: '/search',
-        name: 'Search',
-        component: () => import('../views/search/index.vue'),
-        children: [
-            {
-                path: 'home',
-                alias: '',
-                name: 'SearchHome',
-                component: () => import('../views/search-home/index.vue')
-            }, {
-                path: 'result',
-                name: 'SearchResult',
-                component: () => import('../views/search-result/index.vue')
-            }
-        ]
-    }, {
-        path: '/read',
-        name: 'Read',
-        component: () => import('../views/read/index.vue')
-    }, {
-        path: '/login',
-        name: 'Login',
-        component: () => import('../views/login/index.vue')
-    },{
-        path: '/toAuthor',
-        name: 'ToAuthor',
-        component: ()=> import('../views/to-author/index.vue')
-    },{
-        path: '/toAuthorFrom',
-        name: 'ToAuthorFrom',
-        component: ()=> import('../views/to-author-from/index.vue')
-    },{
-        path: '/toAuthorDetail',
-        name: 'ToAuthorDetail',
-        component: ()=> import('../views/to-author-detail/index.vue')
+declare module 'vue-router' {
+    interface Router {
+        onBack: () => boolean;
     }
-]
+}
+
+const DEFAULT_BACK = () => true;
 
 
 const router = createRouter({
@@ -86,18 +15,15 @@ const router = createRouter({
     routes
 });
 
-const DEFAULT_BACK = ()=>true;
+export const mastLogin = (name: string) => router.push({name});
+
 
 router.onBack = DEFAULT_BACK;
-declare module 'vue-router' {
-    interface Router {
-        onBack: () => boolean;
-    }
-}
+
 
 router.beforeEach((to, from, next) => {
     let n = router.onBack();
-    if(n){
+    if (n) {
         router.onBack = DEFAULT_BACK;
     }
     next(n);

@@ -1,6 +1,46 @@
-import {http} from "./index";
+import {downloader,http} from "./index";
+import {Token} from "../views/mine/store";
+
+const key = "111";
+
+export const getImageCode = () => {
+    return downloader.get("/login/code", {
+        responseType: "arraybuffer",
+        params: {
+            key,
+            t: Math.random()
+        }
+    }).then(res => {
+        const reduce = new Uint8Array(res.data).reduce((data, byte) => data + String.fromCharCode(byte), '');
+        return 'data:image/png;base64,' + btoa(reduce);
+    })
+};
+
+export const login = (data: LoginParam) => http.post<any, Token>("/login", data);
 
 
-export const login = ()=> http.post("/login")
+export interface LoginParam {
+    phone: string,
+// 密码
+    password: string,
+// 验证码key
+    key: string,
 
-export const imageCode = ()=>{};
+// 图形验证码
+    imageCode: string,
+}
+
+export const getDefaultBean = (): LoginParam => ({
+    phone: "17631424475",
+    password: "123456",
+    key: "",
+    imageCode: "",
+})
+
+
+export interface TokenModel {
+    value: string;
+    timeout: number;
+    name?: string;
+}
+

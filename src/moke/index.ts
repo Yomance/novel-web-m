@@ -15,7 +15,7 @@ Mock.mock("/api/login",  {
     msg: '成功',
     data:{
         "token|32":"",
-        tokenName:'token',
+        name:'token',
         tokenTimeOut: 1000,
         username: 'Yomance',
         id: '1',

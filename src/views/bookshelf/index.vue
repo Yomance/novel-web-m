@@ -3,7 +3,7 @@
     <yun-header @edit="onShowEdit" :bgc="bgc" />
     <div class="body">
       <yun-book-list
-        v-if="showPage == 'normal'"
+        v-if="showPage === 'normal'"
         @click="onItemClick"
         :list="shelfList"
         v-model:is-edit="showEdit"
@@ -51,18 +51,17 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { showToast } from "vant";
 import StatusBar from "../../components/StatusBar.vue";
-import token from "../../api/token";
 
 import YunHeader from "./src/hrader.vue";
 import YunEmpty from "./src/empty.vue";
 import YunBookList from "./src/book-list.vue";
 import { Book } from "../../type/book";
 import { getShelfList, removeShelfByIds } from "./api";
-// 是否登录
-const isLogin = ref(token.isLogin);
+import {useUserStore} from "../mine/store";
+let userStore = useUserStore();
 // 控制显示那个页面
 const showPage = computed(() => {
-  if (!isLogin.value) return "nologin";
+  if (!userStore.isLogin) return "nologin";
   if (loading.value) return "loading";
   if (shelfList.value.length == 0) return "empty";
   return "normal";
@@ -85,7 +84,7 @@ const msg = (message: string) => {
 
 // 加载书籍
 const loadData = () => {
-  if (!isLogin.value) return;
+  if (!userStore.isLogin) return;
   loading.value = true;
   getShelfList()
     .then((e) => (shelfList.value = <Book[]>(<unknown>e)))
@@ -98,7 +97,7 @@ const scrollChange = (e: Event | any) =>
 
 // 进行编辑
 const onShowEdit = () => {
-  if (!isLogin.value) return msg("请先登录");
+  if (!userStore.isLogin) return msg("请先登录");
   if (shelfList.value.length == 0) return msg("书架空空如也");
   // 清空选择列表
   selectIds.value.clear();

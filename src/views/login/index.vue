@@ -3,10 +3,10 @@
     <van-form @submit="onSubmit">
       <van-cell-group inset>
         <van-field
-            v-model="param.account"
+            v-model="param.phone"
             :rules="[{ required: true, message: '请填写手机号' }]"
             label="手机号"
-            name="account"
+            name="phone"
             placeholder="手机号"
         />
         <van-field
@@ -45,9 +45,8 @@
 <script lang="ts" setup>
 import {ref} from "vue";
 import {useRouter} from "vue-router";
-import {getImageCode, login} from "./request";
-import {closeNotify, showNotify, showToast} from "vant";
-import {getDefaultBean, LoginParam} from "./type";
+import {getImageCode, login,getDefaultBean, LoginParam} from "../../api/login";
+import {closeNotify, showNotify} from "vant";
 import {useUserStore} from "../mine/store";
 
 const userStore = useUserStore();
@@ -79,7 +78,9 @@ const onSubmit = (e: LoginParam) => {
         closeNotify();
         router.go(-1);
       })
-      .catch(showNotify)
+      .catch((e)=>{
+        console.log(e)
+      })
       .finally(() => loading.value = false);
 }
 </script>

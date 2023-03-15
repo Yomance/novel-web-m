@@ -8,18 +8,18 @@
         <div class="name van-ellipsis">{{ store.username }}</div>
         <van-icon class="left" name="arrow" size="26px"/>
       </div>
-      <div class="money">
+      <div class="money" @click="showToast('敬请期待')">
         <div class="list">
           <div class="item">
-            <div class="size">{{ store.purse.goldCoins }}</div>
+            <div class="size">{{ store.isLogin ? store.purse.goldCoins : '-' }}</div>
             <div class="desc">金币</div>
           </div>
           <div class="item">
-            <div class="size">{{ store.purse.coins }}</div>
+            <div class="size">{{ store.isLogin ? store.purse.coins : '-' }}</div>
             <div class="desc">硬币</div>
           </div>
           <div class="item">
-            <div class="size">{{ store.purse.coupons }}</div>
+            <div class="size">{{ store.isLogin ? store.purse.coupons : '-' }}</div>
             <div class="desc">优惠券</div>
           </div>
         </div>
@@ -35,9 +35,9 @@
       </van-grid>
       <van-cell-group inset>
         <van-cell icon="orders-o" title="最近阅读" @click="mastLogin({name:'History'})"/>
-        <van-cell icon="cart-o" title="我的藏书" value="1"/>
+        <van-cell icon="cart-o" title="我的藏书"/>
         <van-cell icon="like-o" title="想读"/>
-        <van-cell icon="comment-o" title="想法" value="5"/>
+        <van-cell icon="comment-o" title="想法"/>
         <van-cell icon="point-gift-o" title="成为作者" @click="router.push({name:'ToAuthor'})"/>
       </van-cell-group>
       <van-button v-if="store.isLogin" block @click="store.logout()">退出登录</van-button>
@@ -50,7 +50,8 @@
 import {useUserStore} from "./store";
 import {useRouter} from "vue-router";
 import {mastLogin} from "../../util/router";
-
+import {showToast} from "vant";
+import StatusBar from "../../components/StatusBar.vue";
 const store = useUserStore();
 const router = useRouter();
 const onUserInfoClick = () => {

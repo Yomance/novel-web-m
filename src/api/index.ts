@@ -1,6 +1,5 @@
-import axios, { AxiosHeaders } from "axios";
+import axios from "axios";
 import {useUserStore} from "../views/mine/store";
-import token from "./token";
 
 export interface Result<D> {
     code: number,
@@ -16,8 +15,7 @@ export interface Page<D> {
     data: D[];// 数据
 }
 
-const ConfigBaseURL = 'http://localhost:2080' //默认路径，这里也可以使用env来判断环境
-// const ConfigBaseURL = '/novel4j/api' //默认路径，这里也可以使用env来判断环境
+const ConfigBaseURL = 'http://localhost:20801' //默认路径，这里也可以使用env来判断环境
 
 export const downloader = axios.create({
     timeout: 7000, // 请求超时时间
@@ -32,12 +30,16 @@ const instance = axios.create({
         'Content-Type': 'application/json;charset=UTF-8'
     }
 })
+let userStore:any;
 // 添加请求拦截器
 instance.interceptors.request.use(config => {
-    // @ts-ignore
-    config.headers = {
-        ...config.headers,
-        [token.name]:token.value,
+    if (!userStore) userStore = useUserStore();
+    if (userStore.token.name){
+        // @ts-ignore
+        config.headers = {
+            ...config.headers,
+            [userStore.token.name]:userStore.token.value,
+        }
     }
     return config;
 })
