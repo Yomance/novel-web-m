@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import './assets/css/style.less'
-
+import './util/extend'
 import App from './App.vue'
 import route from './router/index';
 // @ts-ignore

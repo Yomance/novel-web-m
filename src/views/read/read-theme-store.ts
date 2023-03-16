@@ -49,12 +49,12 @@ export const useReadThemeStore = defineStore({
             this.fontSize = newVar;
         },
         setTheme(theme: Theme) {
-            if (theme.color !== null) this.color = theme.color;
-            if (theme.fontSize !== null) this.fontSize = theme.fontSize;
-            if (theme.fontFamily !== null) this.fontFamily = theme.fontFamily;
-            if (theme.background !== null) this.background = theme.background;
-            if (theme.lineHeight !== null) this.lineHeight = theme.lineHeight;
-            if (theme.letterSpacing !== null) this.letterSpacing = theme.letterSpacing;
+            if (theme.color) this.color = theme.color;
+            if (theme.fontSize) this.fontSize = theme.fontSize;
+            if (theme.fontFamily) this.fontFamily = theme.fontFamily;
+            if (theme.background) this.background = theme.background;
+            if (theme.lineHeight) this.lineHeight = theme.lineHeight;
+            if (theme.letterSpacing) this.letterSpacing = theme.letterSpacing;
         },
         /**
          * 亮度拖动时跟随触发

@@ -11,7 +11,6 @@
       <book-card
           v-for="item in books"
           :book="item"
-          @click="router.push({name:'Read', query:{b:item.id,c:item.readTo}})"
       />
     </van-space>
   </div>

@@ -3,52 +3,48 @@
       :style="themeStore.styleObject"
       class="read-view"
   >
-    <div class="header">{{ readBookStore.currentChapter.name }}</div>
-    <div class="content">
-      <button
-          v-if="readBookStore.status.error"
-          class="con"
-          @click="readBookStore.loadChapter"
-          v-text="'网络错误，请点击重试！'"
-      />
-      <button v-if="!readBookStore.status.error && readBookStore.status.loading" class="con">
-        <van-loading vertical>加载中...</van-loading>
-      </button>
-      <div
-          v-if="!readBookStore.status.error && !readBookStore.status.loading"
-          class="con"
-          @click="showSetting = !showSetting"
-      >
-        <p v-for="item in readBookStore.currentChapter.content.split('\n')">{{ item }}</p>
-      </div>
-      <div class="btn-list">
-        <van-button
-            :disabled="readBookStore.status.loading"
-            size="small" @click="readBookStore.loadLastChapter">上一章
-        </van-button>
-        <van-button :disabled="readBookStore.status.loading" size="small" @click="readBookStore.loadNextChapter">下一章
-        </van-button>
-      </div>
-    </div>
+    <div class="header">{{ chapterStore.chapter.name }}</div>
+    <yun-content @click="showSetting = !showSetting"/>
     <div class="footer"></div>
   </div>
   <n-alert v-model:show="showSetting"/>
-  <buy v-show="!readBookStore.currentChapter.isBuy" />
+  <!--  <buy v-show="!readBookStore.currentChapter.isBuy" />-->
 </template>
 
 <script lang="ts" setup>
-import NAlert from './alert/alert.vue'
+import NAlert from './src/alert.vue'
 import {ref} from "vue";
 import {useReadThemeStore} from "./read-theme-store";
-import {useReadBookStore} from "./book-store";
+import YunContent from './src/content.vue';
 import Buy from "./buy.vue";
+import {useBookStore} from "../../store/book";
+import {useChapterStore} from "../../store/chapter";
+import {useRoute, useRouter} from "vue-router";
 
+const router = useRouter();
+const bookStore = useBookStore();
 const themeStore = useReadThemeStore();
-const readBookStore = useReadBookStore();
 const showSetting = ref(false);
-readBookStore.loadChapter(1);
+let route = useRoute();
+const chapterStore = useChapterStore();
+let bid: string = <string>route.query.bid;
+let cid: string = <string>route.query.cid;
+if (!bid) {
+  router.push({name: "404"});
+}
+chapterStore.bookId = bid;
+chapterStore.chapterId = cid;
+//
+// 加载书籍信息
+bookStore.bookId = bid;
+bookStore.loadBookInfo().then(e=>{
+  // 加载章节信息
+  if (!chapterStore.chapterId){
+    chapterStore.chapterId = bookStore.book.readTo;
+    chapterStore.loadChapter();
+  }
+});
 </script>
-
 <style lang="less" scoped>
 .read-view {
   width: 100%;

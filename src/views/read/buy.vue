@@ -6,9 +6,6 @@
 </template>
 
 <script lang="ts" setup>
-import {useReadBookStore} from "./book-store";
-
-const readBookStore = useReadBookStore();
 </script>
 
 <style lang="less" scoped>

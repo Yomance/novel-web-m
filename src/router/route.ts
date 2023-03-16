@@ -76,6 +76,10 @@ const routes: RouteRecordRaw[] = [
         path: '/toAuthorDetail',
         name: 'ToAuthorDetail',
         component: ()=> import('../views/to-author-detail/index.vue')
+    },{
+        path: "/404",
+        name:"404",
+        component:()=>import("../views/404/index.vue")
     }
 ]
 

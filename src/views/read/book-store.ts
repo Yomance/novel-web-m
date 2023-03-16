@@ -5,6 +5,7 @@ import {readChapter} from "./requist";
 export const useReadBookStore = defineStore({
     id: "ReadBookStore",
     state: () => ({
+        bookId: "",
         currentBook: {
             id: "1611685969415892993",
             name: '我家学姐，不是人！',

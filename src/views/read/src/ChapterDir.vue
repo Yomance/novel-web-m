@@ -8,18 +8,18 @@
   >
     <status-bar/>
     <div class="book">
-      <img :src="readBookStore.currentBook.cover" alt="">
+      <img :src="bookStore.book.cover" alt="">
       <div class="info">
-        <div class="name van-ellipsis">{{ readBookStore.currentBook.name }}</div>
-        <div class="author van-ellipsis">{{ readBookStore.currentBook.authorName }}</div>
+        <div class="name van-ellipsis">{{ bookStore.book.name }}</div>
+        <div class="author van-ellipsis">{{ bookStore.book.authorName }}</div>
       </div>
-      <van-icon name="arrow" size="18"/>
+<!--      <van-icon name="arrow" size="18"/>-->
     </div>
     <div class="set">
-      <div class="count">共{{ readBookStore.currentBook.chapterCount }}章</div>
-      <div class="sort">
+      <div class="count">共{{ bookStore.book.chapterCount }}章</div>
+      <div class="sort" @click="asc = !asc">
         <van-icon name="exchange"/>
-        {{ asc ? '正' : '倒' }}序
+        {{ asc ? '倒': '正' }}序
       </div>
     </div>
     <van-list
@@ -32,7 +32,7 @@
     >
       <van-cell
           v-for="item in chapters"
-          :class="{lock: !(item.free || buyList.has(item.nums)), active: item.nums === props.current}"
+          :class="{lock: !(item.free || buyList.has(item.nums)), active: item.id === props.current}"
           :title="item.name"
           title-class="van-ellipsis title-class"
           @click="onClick(item)"
@@ -46,11 +46,14 @@
   </van-popup>
 </template>
 <script lang="ts" setup>
-import {computed, PropType, ref, shallowReactive} from "vue";
+import {computed, nextTick, PropType, ref, shallowReactive, watch} from "vue";
 import StatusBar from "../../../components/StatusBar.vue";
 import {Chapter} from "../type";
 import {buyChapterList, getDir} from "../requist";
-import {useReadBookStore} from "../book-store";
+import {useBookStore} from "../../../store/book";
+import {useChapterStore} from "../../../store/chapter";
+const bookStore = useBookStore();
+const chapterStore = useChapterStore();
 
 const emits = defineEmits(["update:show"]);
 const props = defineProps({
@@ -62,17 +65,23 @@ const props = defineProps({
     type: String as PropType<"left" | "right" | "bottom">,
     default: "left"
   },
-  current: {type: Number, default: 1},
+  current: {type: String, default: 1},
 });
 
 function onClick(c: Chapter) {
-  readBookStore.loadChapter(c.nums);
+  chapterStore.chapterId = c.id;
+  chapterStore.loadChapter();
   emits("update:show", false);
 }
 
-const readBookStore = useReadBookStore();
 // 排序
 const asc = ref(true);
+watch(asc, ()=>{
+  console.log(1)
+  current = 1;
+  chapters.clear();
+  listProp.finished = false;
+})
 // 弹出框大小
 const propSize = computed(() => {
   if (props.position == "bottom") {
@@ -97,25 +106,25 @@ const listProp = shallowReactive({
   finished: false,
   error: false,
 });
-buyChapterList(readBookStore.currentBook.id).then(e => e.forEach(v => buyList.add(v)));
+buyChapterList(bookStore.bookId).then(e => e.forEach(v => buyList.add(v)));
 
 function loadData() {
   getDir(
-      readBookStore.currentBook.id,
+      bookStore.bookId,
       current,
       20,
       asc.value,
   )
       .then(e => {
-        if (e.data.length < 20) {
+        chapters.push(...e.data);
+        if (e.total <= chapters.length) {
           listProp.finished = true;
         }
-        chapters.push(...e.data);
         current++;
       })
       .catch(e => listProp.error = true)
       .finally(() => {
-        listProp.loading = false
+        nextTick(()=> listProp.loading = false)
       });
 }
 </script>

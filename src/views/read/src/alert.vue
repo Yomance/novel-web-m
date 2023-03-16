@@ -5,9 +5,9 @@
       <van-nav-bar :border="false" left-arrow @click-left="router.back()">
         <template #right>
             <span
-                :style="{opacity: bookshelfStore.inShelf(bid) ? 0.7:1}"
+                :style="{opacity: tmp ? 0.7: 1}"
                 @click="onAddShelf"
-                v-text="bookshelfStore.inShelf(bid)?'已加书架':'加书架'"
+                v-text="tmp?'已加书架':'加书架'"
             />
           <span>书评</span>
         </template>
@@ -33,7 +33,7 @@
         <!--        <van-tabbar-item icon="ellipsis">更多</van-tabbar-item>-->
       </van-tabbar>
     </div>
-    <chapter-dir v-model:show="showDir"/>
+    <chapter-dir v-model:show="showDir" :current="chapterStore.chapter.id"/>
   </div>
 </template>
 <script lang="ts" setup>
@@ -41,17 +41,17 @@ import {ref, watch} from "vue";
 import {system} from "../../../util/system";
 import {useRoute, useRouter} from "vue-router";
 import {useReadThemeStore} from "../read-theme-store";
-import {useBookshelfStore} from "../../bookshelf/store";
 import StatusBar from "../../../components/StatusBar.vue";
 import ChapterDir from './ChapterDir.vue';
-import {useReadBookStore} from "../book-store";
 import ChapterSelector from "./ChapterSelector.vue";
 import SettingList from "./SettingList.vue";
+import {useChapterStore} from "../../../store/chapter";
 
-const readBookStore = useReadBookStore();
+const chapterStore = useChapterStore();
+
+const tmp = ref(false);
 
 const theme = useReadThemeStore();
-const bookshelfStore = useBookshelfStore();
 const props = defineProps({
   show: { // 是否显示菜单
     type: Boolean,
@@ -94,11 +94,7 @@ const onChapterChange = (size: 0 | -1 | 1) => {
 
 // 将本书加入书架
 const onAddShelf = () => {
-  if (bookshelfStore.inShelf(bid)) {
-    bookshelfStore.removeBook(bid);
-  } else {
-    bookshelfStore.addBook(bid);
-  }
+
 }
 // 当前是否为夜间模式
 const isNight = ref(false);

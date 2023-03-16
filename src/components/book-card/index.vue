@@ -1,4 +1,5 @@
 <template>
+  <router-link :to="'/read?bid='+book.id">
   <div class="book-card">
     <div class="cover">
       <img alt="" :src="book.cover">
@@ -15,6 +16,7 @@
       </div>
     </div>
   </div>
+  </router-link>
 </template>
 <script lang="ts" setup>
 import {PropType} from "vue";
