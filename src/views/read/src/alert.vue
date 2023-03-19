@@ -9,7 +9,7 @@
                 @click="onAddShelf"
                 v-text="tmp?'已加书架':'加书架'"
             />
-          <span>书评</span>
+          <span @click="emits('showComment')">书评</span>
         </template>
       </van-nav-bar>
     </div>
@@ -58,7 +58,7 @@ const props = defineProps({
     required: true,
   }
 });
-const emits = defineEmits(["update:show", "chapter:update"]);
+const emits = defineEmits(["update:show", "chapter:update", 'showComment']);
 ////////////////////////////////////////////////////////
 const router = useRouter();
 const route = useRoute();

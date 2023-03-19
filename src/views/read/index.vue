@@ -7,8 +7,14 @@
     <yun-content @click="showSetting = !showSetting"/>
     <div class="footer"></div>
   </div>
-  <n-alert v-model:show="showSetting"/>
+  <n-alert v-model:show="showSetting" @show-comment="showSetting = !(showComment = true)"/>
   <!--  <buy v-show="!readBookStore.currentChapter.isBuy" />-->
+  <yun-comment
+      v-model:show="showComment"
+      :bid="bid || ''"
+      :cid="chapterStore.chapterId"
+      :text="chapterStore.chapter.name || ''"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -20,7 +26,9 @@ import Buy from "./buy.vue";
 import {useBookStore} from "../../store/book";
 import {useChapterStore} from "../../store/chapter";
 import {useRoute, useRouter} from "vue-router";
+import YunComment from '../../components/comment/index.vue';
 
+const showComment = ref(false);
 const router = useRouter();
 const bookStore = useBookStore();
 const themeStore = useReadThemeStore();
@@ -37,9 +45,9 @@ chapterStore.chapterId = cid;
 //
 // 加载书籍信息
 bookStore.bookId = bid;
-bookStore.loadBookInfo().then(e=>{
+bookStore.loadBookInfo().then(e => {
   // 加载章节信息
-  if (!chapterStore.chapterId){
+  if (!chapterStore.chapterId) {
     chapterStore.chapterId = bookStore.book.readTo;
     chapterStore.loadChapter();
   }
