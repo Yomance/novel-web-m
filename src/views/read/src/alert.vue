@@ -4,17 +4,13 @@
       <status-bar :color="show ? 'white' : 'black' "/>
       <van-nav-bar :border="false" left-arrow @click-left="router.back()">
         <template #right>
-            <span
-                :style="{opacity: tmp ? 0.7: 1}"
-                @click="onAddShelf"
-                v-text="tmp?'已加书架':'加书架'"
-            />
+          <span v-if="!bookStore.book.inShelf" @click="needLogin(onAddShelf)">加书架</span>
           <span @click="emits('showComment')">书评</span>
         </template>
       </van-nav-bar>
     </div>
     <div :class="{hidden: !show}" class="footer">
-      <setting-list v-show="showSetting" />
+      <setting-list v-show="showSetting"/>
       <chapter-selector v-show="!showSetting"/>
       <van-tabbar :border="false" :fixed="false">
         <van-tabbar-item
@@ -46,6 +42,10 @@ import ChapterDir from './ChapterDir.vue';
 import ChapterSelector from "./ChapterSelector.vue";
 import SettingList from "./SettingList.vue";
 import {useChapterStore} from "../../../store/chapter";
+import {addShelf} from "../../../api/bookshelf";
+import {useBookStore} from "../../../store/book";
+import {showToast} from "vant";
+import {needLogin} from "../../../util/login";
 
 const chapterStore = useChapterStore();
 
@@ -66,9 +66,6 @@ const route = useRoute();
 const bid: string = <string>route.query.b;
 // 章节id
 const cid: string = <string>route.query.c;
-// 章节序号
-const cnum: string = <string>route.query.c;
-console.log(bid, cid, cnum);
 ////////////////////////////////////////////////////////
 
 const onSetShowValue = (b: boolean) => {
@@ -92,9 +89,12 @@ const onChapterChange = (size: 0 | -1 | 1) => {
   emits("chapter:update", size);
 }
 
+const bookStore = useBookStore();
 // 将本书加入书架
 const onAddShelf = () => {
-
+  addShelf(bookStore.bookId)
+      .then(e => (bookStore.book.inShelf = true) && showToast({message:"添加成功", position: "bottom"}))
+      .catch((message) => showToast({message, position: "bottom"}));
 }
 // 当前是否为夜间模式
 const isNight = ref(false);
@@ -177,6 +177,7 @@ const onBrightnessChange = (v: number) => {
     --van-tabbar-background: transparent;
     --van-tabbar-item-active-color: var(--a-text-color);
     --van-tabbar-item-text-color: var(--a-text-color);
+
     &.hidden {
       bottom: -20%;
     }

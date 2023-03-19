@@ -4,8 +4,9 @@
         ref="textarea"
         :value="text"
         class="textarea"
+        @focus="needLogin"
         rows="1"
-        @blur="onfocus"
+        @blur="onBlur"
         @input="e=>emits('update:text', e.target.value)"
     />
     <div ref="buttonRef" :class="{disable: text === ''}" class="publish" @click="send">发送</div>
@@ -14,6 +15,7 @@
 
 <script lang="ts" setup>
 import {ref, watch} from "vue";
+import {needLogin} from "../../util/login";
 
 const emits = defineEmits(['send', 'blur', 'update:text', 'update:focus']);
 const props = defineProps({
@@ -28,7 +30,7 @@ const props = defineProps({
 const buttonRef = ref<Element>();
 let blur = false;
 
-function onfocus(e) {
+function onBlur(e) {
   console.log(e)
   blur = document.activeElement !== buttonRef.value &&
       document.activeElement !== buttonRef.value?.parentElement

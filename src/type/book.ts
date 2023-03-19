@@ -52,7 +52,7 @@ export interface Book {
     author: string,
     authorId: string,
     description: string;
-    readTo: number,
+    readTo: string,
     writeState: WriteState,
     newChapter: Chapter;
     tags: Tag[],
@@ -130,7 +130,7 @@ export const randomBook = (id?:string): Book => {
         author: Random.ctitle(3, 10),
         description: Random.cparagraph(1, 5),
         cover: `/src/assets/image/cover/cover${Random.integer(0, 19)}.jpg`,
-        readTo: 1,
+        readTo: "1",
         writeState: randomWriteState(),
         newChapter: randomChapter(id, chapterCount),
         tags: [

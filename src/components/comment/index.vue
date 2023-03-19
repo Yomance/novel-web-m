@@ -51,6 +51,7 @@ import YunChildList from './children-panel.vue';
 import {nextTick, reactive, ref} from "vue";
 import {addComment, page} from "../../api/comment";
 import {showToast} from "vant";
+import {useRouter} from "vue-router";
 
 const emits = defineEmits(['update:show']);
 const props = defineProps({
@@ -141,6 +142,20 @@ const onSend = () => {
         currentComment.value = null;
       })
       .catch(({message}) => showToast(message))
+}
+
+const router = useRouter();
+router.onBack = ()=>{
+  if (showChildren.value){
+    showChildren.value = false;
+    return false;
+  }
+  if (props.show){
+    emits('update:show', false);
+    return false;
+  }
+  router.onBack = ()=>true;
+  return true;
 }
 </script>
 <style lang="less" scoped>

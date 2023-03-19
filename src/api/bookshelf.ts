@@ -1,5 +1,5 @@
-import { Book } from './../../type/book';
-import { http } from "../../api";
+import { Book } from '../type/book';
+import { http } from "./index";
 
 const BASE = "";
 

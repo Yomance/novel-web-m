@@ -56,8 +56,9 @@ import YunHeader from "./src/hrader.vue";
 import YunEmpty from "./src/empty.vue";
 import YunBookList from "./src/book-list.vue";
 import { Book } from "../../type/book";
-import { getShelfList, removeShelfByIds } from "./api";
+import { getShelfList, removeShelfByIds } from "../../api/bookshelf";
 import {useUserStore} from "../mine/store";
+import {toRead} from "../../router/page";
 let userStore = useUserStore();
 // 控制显示那个页面
 const showPage = computed(() => {
@@ -107,14 +108,13 @@ const onShowEdit = () => {
 // 书籍点击事件
 const onItemClick = (e: Book) => {
   if (loading.value) return;
-  if (showEdit.value) {
-    // 存在则删除，不存在则添加
-    selectIds.value.has(e.id)
+  if (!showEdit.value) {
+    return toRead(e.id, e.readTo);
+  }
+  // 存在则删除，不存在则添加
+  selectIds.value.has(e.id)
       ? selectIds.value.delete(e.id)
       : selectIds.value.add(e.id);
-  } else {
-    router.push({ name: "Read", query: { b: 1, c: 1 } });
-  }
 };
 
 // 删除书籍

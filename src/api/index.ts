@@ -15,7 +15,7 @@ export interface Page<D> {
     data: D[];// 数据
 }
 
-const ConfigBaseURL = 'http://localhost:20801' //默认路径，这里也可以使用env来判断环境
+const ConfigBaseURL = 'http://192.168.43.101:20801' //默认路径，这里也可以使用env来判断环境
 
 export const downloader = axios.create({
     timeout: 7000, // 请求超时时间
