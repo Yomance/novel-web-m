@@ -1,5 +1,12 @@
 import {http, Page} from "./index";
 
+/**
+ * 评论点赞
+ * @param commentId 评论id
+ * @param like 点赞or取消
+ */
+export const like = (commentId:string, like:boolean)=>
+    http.get("/comment/like", {params:{commentId, like}});
 
 export const page = (
     current: number,

@@ -29,6 +29,7 @@
 </template>
 <script lang="ts" setup>
 import {defineProps} from "vue";
+import {like} from "../../api/comment";
 
 const props = defineProps({
   data: {
@@ -45,13 +46,9 @@ const props = defineProps({
   }
 });
 const onLike = () => {
-  if (props.data.isLike) {
-    props.data.isLike = false;
-    props.data.likeNum--;
-  } else {
-    props.data.isLike = true;
-    props.data.likeNum++;
-  }
+  like(props.data.id, !props.data.isLike);
+  props.data.likeNum = parseInt(props.data.likeNum)+(props.data.isLike ? -1 : 1);
+  props.data.isLike = !props.data.isLike;
 }
 const emits = defineEmits(['comment', 'list']);
 </script>
