@@ -1,5 +1,6 @@
 import axios from "axios";
 import {useUserStore} from "../views/mine/store";
+import {needLogin} from "../util/login";
 
 export interface Result<D> {
     code: number,
@@ -15,7 +16,7 @@ export interface Page<D> {
     data: D[];// 数据
 }
 
-const ConfigBaseURL = 'http://192.168.43.101:20801' //默认路径，这里也可以使用env来判断环境
+const ConfigBaseURL = 'http://localhost:2080' //默认路径，这里也可以使用env来判断环境
 
 export const downloader = axios.create({
     timeout: 7000, // 请求超时时间
@@ -48,6 +49,10 @@ instance.interceptors.response.use(response => {
     return new Promise<any>((resolve, reject) => {
         if (response.data.code == 0) {
             resolve(response.data.data);
+        } else if (response.data.code == -1){
+            userStore.logout();
+            needLogin();
+            reject(response.data);
         } else {
             reject(response.data);
         }
