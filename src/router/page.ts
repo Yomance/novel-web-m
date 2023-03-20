@@ -8,3 +8,7 @@ export const toRead = (bid:string, cid?:string)=>{
     }
     router.push({name: "Read", query:{bid, cid}, params: {bid, cid}});
 }
+export const toAuditDetail = (replace: boolean = false)=>{
+    if (replace) return  router.replace({name:"ToAuthorDetail"});
+    return router.push({name:"ToAuthorDetail"})
+}

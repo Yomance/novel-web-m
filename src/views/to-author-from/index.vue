@@ -36,6 +36,7 @@ import {ref} from 'vue';
 import {add, upload} from "../../api/to-author";
 import {showNotify} from "vant";
 import {useRouter} from "vue-router";
+import {toAuditDetail} from "../../router/page";
 let router = useRouter();
 
 const loading = ref(false);
@@ -51,16 +52,18 @@ const selectBack = (f: File) => (f && (backImage.value = f));
 const onNext = () => {
   loading.value = true;
   upload(frontImage.value, backImage.value)
-      .then(e => {
-        data.value = e;
-        console.log(e);
-      })
+      .then(e => data.value = e)
+      .catch(({message})=>showNotify(message))
       .finally(() => loading.value = false);
 }
+
 const onSubmit = () => {
   loading.value = true;
   add(data.value)
-      .then(e=> showNotify({ message: '成功' }))
+      .then(e=> {
+        showNotify({message: '成功', type: "success", duration:1000});
+        setTimeout(()=>toAuditDetail(true), 1000);
+      })
       .catch(({message})=>showNotify({message}))
       .finally(()=>loading.value = false);
 }
