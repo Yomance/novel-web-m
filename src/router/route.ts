@@ -43,19 +43,7 @@ const routes: RouteRecordRaw[] = [
     }, {
         path: '/search',
         name: 'Search',
-        component: () => import('../views/search/index.vue'),
-        children: [
-            {
-                path: 'home',
-                alias: '',
-                name: 'SearchHome',
-                component: () => import('../views/search-home/index.vue')
-            }, {
-                path: 'result',
-                name: 'SearchResult',
-                component: () => import('../views/search-result/index.vue')
-            }
-        ]
+        component: () => import('../views/search/index.vue')
     }, {
         path: '/read',
         name: 'Read',
