@@ -2,8 +2,8 @@ import {showConfirmDialog} from "vant";
 import router from '../router/index';
 import {RouteLocationRaw} from "vue-router";
 import {useUserStore} from "../views/mine/store";
-const store = useUserStore();
-
+let store:any;
+setTimeout(()=>store = useUserStore());
 export const needLogin = (to?:RouteLocationRaw|Function) => {
     if (to instanceof Event) to = undefined;
     if (store.isLogin){
@@ -12,7 +12,7 @@ export const needLogin = (to?:RouteLocationRaw|Function) => {
         }
         return;
     }
-    showConfirmDialog({
+    return showConfirmDialog({
         title: "去登陆",
         message: "登陆后即可进行操作！"
     })
