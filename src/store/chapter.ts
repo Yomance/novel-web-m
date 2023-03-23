@@ -7,7 +7,10 @@ export const useChapterStore = defineStore({
         chapterId: "",
         bookId: "",
         loading: false,
-        chapter: {},
+        chapter: {
+            name:"",
+            isBuy:false
+        },
     }),
     getters: {
         hasLast(): boolean {

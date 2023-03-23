@@ -17,7 +17,7 @@ export const getDir = (bookId: string, current: number, size: number, asc: boole
  * @param bookId 书籍id
  */
 export const buyChapterList = (bookId: string) =>
-    http.get<number[], number[]>(`/chapter/buyList/${bookId}`);
+    http.get<number[], string[]>(`/chapter/buyList/${bookId}`);
 
 
 /**

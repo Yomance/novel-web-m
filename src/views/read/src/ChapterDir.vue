@@ -32,13 +32,13 @@
     >
       <van-cell
           v-for="item in chapters"
-          :class="{lock: !(item.free || buyList.has(item.nums)), active: item.id === props.current}"
+          :class="{lock: !(item.free || bookStore.buyList.has(item.nums)), active: item.id === props.current}"
           :title="item.name"
           title-class="van-ellipsis title-class"
           @click="onClick(item)"
       >
         <template #right-icon>
-          <van-icon v-if="(item.free || buyList.has(item.nums))" :size="18" name="arrow"/>
+          <van-icon v-if="(item.free || bookStore.buyList.has(item.nums))" :size="18" name="arrow"/>
           <van-icon v-else :size="18" class-prefix="iconfont icon" name="lock"/>
         </template>
       </van-cell>
@@ -49,7 +49,7 @@
 import {computed, nextTick, PropType, ref, shallowReactive, watch} from "vue";
 import StatusBar from "../../../components/StatusBar.vue";
 import {Chapter} from "../type";
-import {buyChapterList, getDir} from "../requist";
+import {getDir} from "../requist";
 import {useBookStore} from "../../../store/book";
 import {useChapterStore} from "../../../store/chapter";
 const bookStore = useBookStore();
@@ -99,14 +99,12 @@ const propSize = computed(() => {
 
 const chapters = shallowReactive<Chapter[]>([]);
 
-const buyList = new Set<number>();
 let current = 1;
 const listProp = shallowReactive({
   loading: false,
   finished: false,
   error: false,
 });
-buyChapterList(bookStore.bookId).then(e => e.forEach(v => buyList.add(v)));
 
 function loadData() {
   getDir(

@@ -8,7 +8,7 @@
     <div class="footer"></div>
   </div>
   <n-alert v-model:show="showSetting" @show-comment="showSetting = !(showComment = true)"/>
-  <!--  <buy v-show="!readBookStore.currentChapter.isBuy" />-->
+  <buy v-show="!chapterStore.chapter.free && !chapterStore.chapter?.isBuy" />
   <yun-comment
       v-model:show="showComment"
       :bid="bid || ''"
@@ -22,7 +22,7 @@ import NAlert from './src/alert.vue'
 import {ref} from "vue";
 import {useReadThemeStore} from "./read-theme-store";
 import YunContent from './src/content.vue';
-import Buy from "./buy.vue";
+import Buy from "./src/buy.vue";
 import {useBookStore} from "../../store/book";
 import {useChapterStore} from "../../store/chapter";
 import {useRoute, useRouter} from "vue-router";
