@@ -8,22 +8,20 @@
         <div class="name van-ellipsis">{{ store.username }}</div>
         <van-icon class="left" name="arrow" size="26px"/>
       </div>
-      <div class="money" @click="showToast('敬请期待')">
+      <div class="money">
         <div class="list">
           <div class="item">
-            <div class="size">{{ store.isLogin ? store.purse.goldCoins : '-' }}</div>
-            <div class="desc">金币</div>
-          </div>
-          <div class="item">
-            <div class="size">{{ store.isLogin ? store.purse.coins : '-' }}</div>
+            <div class="size">{{ store.coinStr }}</div>
             <div class="desc">硬币</div>
           </div>
           <div class="item">
-            <div class="size">{{ store.isLogin ? store.purse.coupons : '-' }}</div>
-            <div class="desc">优惠券</div>
+            <div class="size">{{ store.isLogin ? store.purse.recommend : '-' }}</div>
+            <div class="desc">推荐卡</div>
           </div>
         </div>
-        <div class="btn">充值</div>
+        <router-link to="/pay">
+          <div class="btn">充值</div>
+        </router-link>
       </div>
       <div class="vip">
         <img alt="" src="/src/assets/image/free_vip_img.9.png">

@@ -9,7 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BookCard: typeof import('./src/components/book-card/index.vue')['default']
     ChildrenPanel: typeof import('./src/components/comment/children-panel.vue')['default']
-    Comment: typeof import('./src/components/comment/index.vue')['default']
+    Comment: typeof import('./src/components/comment/comment.vue')['default']
     LoadingAnimation: typeof import('./src/components/LoadingAnimation.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -38,6 +38,8 @@ declare module '@vue/runtime-core' {
     VanSearch: typeof import('vant/es')['Search']
     VanSlider: typeof import('vant/es')['Slider']
     VanSpace: typeof import('vant/es')['Space']
+    VanStep: typeof import('vant/es')['Step']
+    VanSteps: typeof import('vant/es')['Steps']
     VanSwipe: typeof import('vant/es')['Swipe']
     VanSwipeItem: typeof import('vant/es')['SwipeItem']
     VanTabbar: typeof import('vant/es')['Tabbar']

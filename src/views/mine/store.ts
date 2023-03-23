@@ -14,9 +14,8 @@ export const useUserStore = defineStore({
         avatar: "/src/assets/image/avatar/nologin.png", // 头像
         readTime: 0, // 阅读时长 单位 分钟
         purse: {
-            goldCoins: 0, // 金币
-            coins: 0, // 硬币
-            coupons: 0, // 优惠券数量
+            coin: 0, // 硬币
+            recommend: 0, // 推荐卡数量
         },
         token:{
             name:"",
@@ -27,6 +26,19 @@ export const useUserStore = defineStore({
     getters: {
         isLogin():boolean{
             return this.token.value != "";
+        },
+        coinStr():string{
+            if (!<boolean>this.isLogin){
+                return "-";
+            } else if (this.purse.coin < 1000){
+                return this.purse.coin+"";
+            } else if (this.purse.coin < 10000){
+                return (this.purse.coin/1000).toFixed(1)+"k";
+            } else if (this.purse.coin < 100000){
+                return (this.purse.coin/10000).toFixed(1)+"w";
+            }else {
+                return "10w+";
+            }
         },
         readTimeString(): string {
             if (this.isLogin) {
@@ -56,6 +68,7 @@ export const useUserStore = defineStore({
                 this.username = e.username;
                 this.avatar = e.avatar;
                 this.readTime = e.readTime;
+                this.purse = e.purse;
                 return e;
             });
         },
