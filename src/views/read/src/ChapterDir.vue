@@ -32,7 +32,7 @@
     >
       <van-cell
           v-for="item in chapters"
-          :class="{lock: !(item.free || bookStore.buyList.has(item.nums)), active: item.id === props.current}"
+          :class="{lock: !(item.free || bookStore.buyList.has(item.nums)), active: item.id === chapterStore.chapterId}"
           :title="item.name"
           title-class="van-ellipsis title-class"
           @click="onClick(item)"
@@ -213,7 +213,7 @@ function loadData() {
   overflow: auto;
 
   .lock {
-    color: var(--van-text-color-2);
+    opacity: 0.7;
   }
 
   .active {

@@ -58,7 +58,6 @@ const value = ref(1);
 const ids:string[] = [];
 const max = ref(0);
 watch(()=>chapterStore.chapter, ()=>{
-  console.log(ids.binaryIndexOf);
   value.value = ids.indexOf(chapterStore.chapter.id)+1;
 })
 getIdList(bookStore.bookId).then((e)=>{

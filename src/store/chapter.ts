@@ -8,8 +8,10 @@ export const useChapterStore = defineStore({
         bookId: "",
         loading: false,
         chapter: {
+            id:"",
             name:"",
-            isBuy:false
+            isBuy:false,
+            free: false,
         },
     }),
     getters: {
@@ -25,11 +27,15 @@ export const useChapterStore = defineStore({
     actions: {
         loadChapter() {
             if (!this.bookId) {
-                return;
+                return Promise.reject("need bookId");
             }
             this.loading = true;
-            getChapter(this.bookId, this.chapterId)
-                .then((e: any) => (this.chapter = e, this.chapterId = e.id))
+            return getChapter(this.bookId, this.chapterId)
+                .then((e: any) => {
+                    this.chapter = e;
+                    this.chapterId = e.id;
+                    return e;
+                })
                 .finally(() => this.loading = false);
         },
         last() {

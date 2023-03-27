@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import NAlert from './src/alert.vue'
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import {useReadThemeStore} from "./read-theme-store";
 import YunContent from './src/content.vue';
 import Buy from "./src/buy.vue";
@@ -36,12 +36,17 @@ const showSetting = ref(false);
 let route = useRoute();
 const chapterStore = useChapterStore();
 let bid: string = <string>route.query.bid;
-let cid: string = <string>route.query.cid;
+let cid: string = <string>route.query.cid || "";
 if (!bid) {
   router.push({name: "404"});
 }
 chapterStore.bookId = bid;
-chapterStore.chapterId = cid;
+chapterStore.chapterId = cid || "";
+watch(()=>chapterStore.chapter, (n)=>{
+  if (!n.free && !n.isBuy) {
+    showSetting.value = false;
+  }
+})
 //
 // 加载书籍信息
 bookStore.bookId = bid;
