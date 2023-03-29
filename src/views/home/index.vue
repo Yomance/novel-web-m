@@ -6,7 +6,7 @@
       placeholder
   >
     <template #right>
-      <van-icon name="search" size="18" />
+      <van-icon name="search" size="18" @click="toSearchPage"/>
     </template>
   </van-nav-bar>
   <van-pull-refresh
@@ -51,6 +51,7 @@ import {ref} from "vue";
 import HomeBanner from "./comp/HomeBanner.vue";
 import {Banner, HomeViewModel} from "./type";
 import HomeCard from "./comp/HomeCard.vue";
+import {toSearchPage} from "../../router/page";
 
 let router = useRouter();
 const banners = ref<Banner[]>([]);

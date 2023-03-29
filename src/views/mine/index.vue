@@ -27,7 +27,7 @@
         <img alt="" src="/src/assets/image/free_vip_img.9.png">
       </div>
       <van-grid :border="false" class="card" column-num="3">
-        <van-grid-item icon="location" text="签到"/>
+        <van-grid-item icon="location" text="签到" @click="onSignIn"/>
         <van-grid-item icon="column" text="阅历"/>
         <van-grid-item icon="volume" text="消息"/>
       </van-grid>
@@ -50,8 +50,18 @@ import {useRouter} from "vue-router";
 import {mastLogin} from "../../util/router";
 import {showToast} from "vant";
 import StatusBar from "../../components/StatusBar.vue";
+import {signIn} from "../../api/activity";
 const store = useUserStore();
 const router = useRouter();
+
+const onSignIn = ()=>{
+  signIn().then(e=>{
+    showToast("签到成功！");
+    store.purse.coin+=e;
+  }).catch(({message})=>{
+    showToast(message || "系统错误");
+  })
+}
 const onUserInfoClick = () => {
   if (store.isLogin) {
   } else {

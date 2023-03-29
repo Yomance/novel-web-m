@@ -10,24 +10,23 @@
         @click-right="onClickRight"
     />
     <div class="body">
-      <van-space  direction="vertical" fill size="16px">
+      <van-space direction="vertical" fill size="16px">
         <div
             class="item"
-            v-longpress="()=>onItemLongPress(e)"
-            v-for="e in historyList"
-            @click="onItemClick(e)"
+            v-for="book in historyList"
+            @click="onItemClick(book)"
         >
-          <img :src="e.cover" :alt="e.name">
+          <img :src="book.cover" :alt="book.name">
           <div class="center">
-            <div class="name van-ellipsis">{{ e.name }}</div>
-            <div class="read-to van-ellipsis">{{ e.readTo }}</div>
+            <div class="name van-ellipsis">{{ book.name }}</div>
+            <div class="read-to van-ellipsis">{{ book?.readToChapter?.name || "-" }}</div>
           </div>
-          <button class="btn" @click.stop="onItemBtnClick(e)">
-            <button v-if="showEdit" class="select" :class="{active: e.isSelect}">
-              <van-icon name="success" size="18" />
+          <button class="btn" @click.stop="onItemBtnClick(book)">
+            <button v-if="showEdit" class="select" :class="{active: book.isSelect}">
+              <van-icon name="success" size="18"/>
             </button>
-            <span v-else-if="!showEdit && e.inShelf" class="open">打开</span>
-            <span v-else-if="!showEdit && !e.inShelf" class="add-shelf">加入书架</span>
+            <span v-else-if="!showEdit && book.inShelf" class="open" @click="onOpen(book)">打开</span>
+            <span v-else-if="!showEdit && !book.inShelf" class="add-shelf" @click="onAddShelf(book)">加入书架</span>
           </button>
         </div>
       </van-space>
@@ -54,85 +53,102 @@
 import {useRouter} from "vue-router";
 import {onUnmounted, ref, watch} from "vue";
 import LoadingAnimation from "../../components/LoadingAnimation.vue";
+import {addShelf, delHistory, history} from "../../api/bookshelf";
+import {showToast} from "vant";
+import {toRead} from "../../router/page";
+
 const router = useRouter();
 const historyList = ref<any>([]);
 const pageLoading = ref(true);
-setTimeout(()=>{
-  for (let i = 1; i < 17; i++) {
-    historyList.value.push({
-      id: i+"",
-      cover: `/src/assets/cover${i & 1 ? "":"1"}.jpg`,
-      name:"大唐开局震惊李世民",
-      readTo:`第${i}章 不吹牛逼会死吗？`,
-      inShelf: Math.random() > 0.5,
-      isSelect: false
-    })
-  }
-  pageLoading.value = false;
-}, 1500);
+history()
+    .then(e => historyList.value = e)
+    .catch(e => showToast(e.message));
+const onAddShelf = (book) => {
+  addShelf(book.id)
+      .then(e => {
+        showToast({message:"添加成功"})
+        book.inShelf = true;
+      })
+}
+const onOpen = (e) => {
+  toRead(e.id, e.readToChapter.id);
+}
+
 
 const showEdit = ref(false);
-const onClickRight = ()=> showEdit.value = true;
-const onSelectAll = ()=> historyList.value.forEach((e:any)=>e.isSelect = true);
-const onItemBtnClick = (e:any)=>{
-  if (showEdit.value){
+const onClickRight = () => showEdit.value = true;
+const onSelectAll = () => historyList.value.forEach((e: any) => e.isSelect = true);
+const onItemBtnClick = (e: any) => {
+  if (showEdit.value) {
     e.isSelect = !e.isSelect;
-  }else {
+  } else {
 
   }
 }
-const onItemClick = (e:any)=>{
-  if (showEdit.value){
+const onItemClick = (e: any) => {
+  if (showEdit.value) {
     e.isSelect = !e.isSelect;
-  }else {
+  } else {
 
   }
-}
-const onItemLongPress = (e:any)=>{
-  e.isSelect = true;
-  showEdit.value = true;
 }
 /**
  * @param deleted 是否删除所选的
  */
-const onCloseEdit = (deleted = false)=>{
+const onCloseEdit = (deleted = false) => {
   showEdit.value = false;
-  if (deleted){
+  if (deleted) {
+    let del:any = [];
     // 本地删除
-    historyList.value = historyList.value.filter((e:any)=> !e.isSelect);
-    // todo 网络删除
-  }else {
+    let newList = historyList.value.filter((e: any) => {
+      if (e.isSelect){
+        del.push(e.id);
+        return false;
+      }
+      return true;
+    });
+    delHistory(del)
+        .then(e=>{
+          historyList.value = newList;
+          showToast("删除成功");
+        })
+        .catch(({message})=>showToast(message))
+  } else {
     // 取消编辑
-    historyList.value.forEach((e:any)=>e.isSelect = false);
+    historyList.value.forEach((e: any) => e.isSelect = false);
   }
 }
-router.onBack = ()=>{
-  if (showEdit.value){
+router.onBack = () => {
+  if (showEdit.value) {
     onCloseEdit();
     return false;
-  }else {
+  } else {
     return true;
   }
 }
 </script>
 
 <style scoped lang="less">
-.history-view{
+.history-view {
   width: 100%;
-  .body{
+
+  .body {
     padding: 16px 16px 58px;
     position: relative;
-    .item{
+
+    .item {
       height: 72px;
       display: flex;
-      img{
+
+      img {
         width: 52px;
         height: 72px;
         border-radius: 4px;
         margin-right: 12px;
         flex-shrink: 0;
       }
-      .center{
+
+      .center {
         width: 0;
         height: 72px;
         flex-grow: 1;
@@ -140,19 +156,23 @@ router.onBack = ()=>{
         flex-direction: column;
         justify-content: space-around;
         padding: 4px 0;
-        .name{
+
+        .name {
           color: var(--text-color-primary);
         }
-        .read-to{
+
+        .read-to {
           color: var(--text-color-placeholder);
           font-size: 12px;
         }
       }
-      .btn{
+
+      .btn {
         height: 72px;
         flex-shrink: 0;
         flex-grow: 0;
-        span{
+
+        span {
           display: inline-block;
           width: 78px;
           line-height: 26px;
@@ -161,12 +181,14 @@ router.onBack = ()=>{
           padding: 0 14px;
           border: 1px solid var(--border-color-light);
           font-size: 12px;
-          &.add-shelf{
+
+          &.add-shelf {
             color: orangered;
             border-color: orangered;
           }
         }
-        .select{
+
+        .select {
           width: 24px;
           height: 24px;
           border-radius: 100%;
@@ -174,7 +196,8 @@ router.onBack = ()=>{
           border: 1px solid orangered;
           color: #FFFFFF;
           margin-right: 8px;
-          &.active{
+
+          &.active {
             background-color: orangered;
           }
         }

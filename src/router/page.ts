@@ -12,3 +12,6 @@ export const toAuditDetail = (replace: boolean = false)=>{
     if (replace) return  router.replace({name:"ToAuthorDetail"});
     return router.push({name:"ToAuthorDetail"})
 }
+export const toSearchPage = ()=>{
+    return router.push({name:"Search"});
+}

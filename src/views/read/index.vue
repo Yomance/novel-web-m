@@ -8,7 +8,7 @@
     <div class="footer"></div>
   </div>
   <n-alert v-model:show="showSetting" @show-comment="showSetting = !(showComment = true)"/>
-  <buy v-show="!chapterStore.chapter.free && !chapterStore.chapter?.isBuy" />
+  <buy v-show="!isBuy" />
   <yun-comment
       v-model:show="showComment"
       :bid="bid || ''"
@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import NAlert from './src/alert.vue'
-import {ref, watch} from "vue";
+import {computed, ref, watch} from "vue";
 import {useReadThemeStore} from "./read-theme-store";
 import YunContent from './src/content.vue';
 import Buy from "./src/buy.vue";
@@ -27,6 +27,10 @@ import {useBookStore} from "../../store/book";
 import {useChapterStore} from "../../store/chapter";
 import {useRoute, useRouter} from "vue-router";
 import YunComment from '../../components/comment/index.vue';
+
+const isBuy = computed(()=>{
+  return chapterStore.loading || chapterStore.chapter.free || chapterStore.chapter?.isBuy
+});
 
 const showComment = ref(false);
 const router = useRouter();
@@ -54,8 +58,8 @@ bookStore.loadBookInfo().then(e => {
   // 加载章节信息
   if (!chapterStore.chapterId) {
     chapterStore.chapterId = bookStore.book.readTo;
-    chapterStore.loadChapter();
   }
+  chapterStore.loadChapter();
 });
 </script>
 <style lang="less" scoped>
