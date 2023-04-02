@@ -28,13 +28,11 @@
       </div>
       <van-grid :border="false" class="card" column-num="3">
         <van-grid-item icon="location" text="签到" @click="onSignIn"/>
-        <van-grid-item icon="column" text="阅历"/>
-        <van-grid-item icon="volume" text="消息"/>
+        <van-grid-item icon="column" text="阅历" @click="mastLogin({name:'History'})"/>
+        <van-grid-item icon="volume" text="消息" @click="showToast('暂无消息')"/>
       </van-grid>
       <van-cell-group inset>
         <van-cell icon="orders-o" title="最近阅读" @click="mastLogin({name:'History'})"/>
-        <van-cell icon="cart-o" title="我的藏书"/>
-        <van-cell icon="like-o" title="想读"/>
         <van-cell icon="comment-o" title="想法"/>
         <van-cell icon="point-gift-o" title="成为作者" @click="router.push({name:'ToAuthor'})"/>
       </van-cell-group>
@@ -55,7 +53,7 @@ const store = useUserStore();
 const router = useRouter();
 
 const onSignIn = ()=>{
-  signIn().then(e=>{
+  signIn().then((e:any)=>{
     showToast("签到成功！");
     store.purse.coin+=e;
   }).catch(({message})=>{
@@ -64,6 +62,7 @@ const onSignIn = ()=>{
 }
 const onUserInfoClick = () => {
   if (store.isLogin) {
+    router.push({name:"UserProfile"});
   } else {
     router.push({name: 'Login'})
   }

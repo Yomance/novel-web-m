@@ -1,5 +1,14 @@
 import {downloader,http} from "./index";
 import {Token} from "../views/mine/store";
+import {ref} from "vue";
+
+export const sendPhoneCode = (codeId:string, phone:string)=>
+    http.post("/login/register/phoneCode", null, {
+        params:{codeId,phone}
+    });
+export const register = (data:any)=>
+    http.post("/login/register",data);
+
 
 const key = "111";
 

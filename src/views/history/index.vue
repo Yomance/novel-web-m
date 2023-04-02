@@ -10,7 +10,9 @@
         @click-right="onClickRight"
     />
     <div class="body">
-      <van-space direction="vertical" fill size="16px">
+
+      <van-empty description="暂无阅读数据" v-if="isEmpty" />
+      <van-space v-else direction="vertical" fill size="16px">
         <div
             class="item"
             v-for="book in historyList"
@@ -56,12 +58,18 @@ import LoadingAnimation from "../../components/LoadingAnimation.vue";
 import {addShelf, delHistory, history} from "../../api/bookshelf";
 import {showToast} from "vant";
 import {toRead} from "../../router/page";
-
+const isEmpty = ref(false)
 const router = useRouter();
 const historyList = ref<any>([]);
 const pageLoading = ref(true);
 history()
-    .then(e => historyList.value = e)
+    .then(e => {
+      if (e.length === 0){
+        isEmpty.value = true;
+        return;
+      }
+      historyList.value = e;
+    })
     .catch(e => showToast(e.message));
 const onAddShelf = (book) => {
   addShelf(book.id)
