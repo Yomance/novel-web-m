@@ -59,22 +59,7 @@ import CaptchaSlider from '../../components/captcha/slider.vue';
 const userStore = useUserStore();
 const router = useRouter();
 const param = ref<LoginParam>(getDefaultBean());
-const checkSuccess = (id:any)=>{
-  phoneCodeId.value = id;
-  showToast('验证码已发送');
-  phoneCodeDisable.value = true;
-  let s = 10;
-  const interval = setInterval(()=>{
-    if(s == 0){
-      clearInterval(interval);
-      phoneCodeText.value = "重新发送";
-      phoneCodeDisable.value = false;
-      return;
-    }
-    phoneCodeText.value = `${s}秒后发送`;
-    s--;
-  },1000);
-}
+
 // 发送验证码按钮禁用
 const phoneCodeDisable = ref(false);
 // 发送验证码按钮文字
@@ -91,11 +76,15 @@ onChangeImageCode();
 const showCaptcha = ref(false);
 //
 const loading = ref(false);
+let loginParam:any = {};
 const onSubmit = (e: LoginParam) => {
   showCaptcha.value = true;
-  return;
+  loginParam = e;
+}
+const checkSuccess = (id:any)=>{
+  phoneCodeId.value = id;
   loading.value = true;
-  login(e)
+  login(loginParam)
       // 登陆获取token 根据token请求用户信息
       .then(res => {
         showNotify({

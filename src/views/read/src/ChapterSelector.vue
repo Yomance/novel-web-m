@@ -37,7 +37,7 @@
     <button class="slider-container">
       <van-slider
           v-model="value"
-          :max="bookStore.book.chapterCount"
+          :max="max"
           :min="1"
           @change="quick"
       />
@@ -58,7 +58,16 @@ const value = ref(1);
 const ids:string[] = [];
 const max = ref(0);
 watch(()=>chapterStore.chapter, ()=>{
-  value.value = ids.indexOf(chapterStore.chapter.id)+1;
+  const number = ids.indexOf(chapterStore.chapter.id);
+  if (number == -1){
+    getIdList(bookStore.bookId).then((e)=>{
+      ids.clearAndAddList(e);
+      max.value = ids.length;
+      value.value = ids.indexOf(chapterStore.chapter.id)+1;
+    });
+  }else {
+    value.value = ids.indexOf(chapterStore.chapter.id)+1;
+  }
 })
 getIdList(bookStore.bookId).then((e)=>{
   ids.clearAndAddList(e);
