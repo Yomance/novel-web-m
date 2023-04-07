@@ -14,6 +14,7 @@
             :rules="[{ required: true, message: '请填写密码' }]"
             label="密码"
             name="password"
+            type="password"
             placeholder="密码"
         />
         <!-- <van-field
@@ -53,7 +54,7 @@
 import {ref} from "vue";
 import {useRouter} from "vue-router";
 import {getImageCode, login,getDefaultBean, LoginParam} from "../../api/login";
-import {closeNotify, showNotify, showToast} from "vant";
+import {showToast} from "vant";
 import {useUserStore} from "../mine/store";
 import CaptchaSlider from '../../components/captcha/slider.vue';
 const userStore = useUserStore();
@@ -84,24 +85,25 @@ const onSubmit = (e: LoginParam) => {
 const checkSuccess = (id:any)=>{
   phoneCodeId.value = id;
   loading.value = true;
+  let toa = showToast({
+    message:"登陆中",
+    duration: 0,
+    type: "loading",
+    overlay: true,
+  });
   login(loginParam)
       // 登陆获取token 根据token请求用户信息
       .then(res => {
-        showNotify({
-          message:"登陆成功，正在跳转！",
-          duration: 0,
-          type: "success"
-        });
+        toa.$props.message = "登陆成功，正在跳转！";
+        // toa.message = "登陆成功，正在跳转！";
         return userStore.login(res);
       })
       // 请求用户信息成功进行跳转
       .then(e => {
-        closeNotify();
+        toa.close();
         router.go(-1);
       })
-      .catch((e)=>{
-        console.log(e)
-      })
+      .catch(({message})=> showToast({message, type: 'fail'}))
       .finally(() => loading.value = false);
 }
 </script>
