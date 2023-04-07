@@ -1,7 +1,7 @@
 <template>
   <div class="user-profile">
     <van-nav-bar title="修改昵称" placeholder left-arrow @click-left="router.back()" right-text="保存" @click-right="save"/>
-    <van-field v-model="name" />
+    <van-field v-model="name" maxlength="12" />
     <div class="text">
       <p>修改说明</p>
       <p>1.昵称每次修改需支付{{price}}硬币（首次修改免费，之后优先使用改名卡道具，改名卡敬请期待）</p>
@@ -18,8 +18,8 @@
 <script setup lang="ts">import {useRouter} from 'vue-router';
 import {useUserStore} from "../mine/store";
 import {ref} from "vue";
-import {firstRename, rename, uploadAvatar} from "../../api/user";
-import {showConfirmDialog, showDialog, showNotify} from "vant";
+import {renameState, rename, uploadAvatar} from "../../api/user";
+import {showConfirmDialog, showDialog, showNotify, showToast} from "vant";
 import {needLogin} from "../../util/login";
 
 const router = useRouter();
@@ -27,12 +27,12 @@ const userStore = useUserStore();
 const price = ref(100);
 const name = ref(userStore.username);
 let message = "昵称只能免费修改一次，确认修改";
-firstRename().then(e=>{
-  if (e == 0){
+renameState().then(e=>{
+  price.value = e.price;
+  if (e.first){
     message = "昵称只能免费修改一次，确认修改";
   }else {
-    price.value = e;
-    message = `昵称需要花费${e}个硬币，确认修改`;
+    message = `昵称需要花费${e.price}个硬币，确认修改`;
   }
 }).catch(({message})=>{
   showNotify({
@@ -50,35 +50,17 @@ function save(){
         rename(name.value)
             .then(e=>{
               userStore.username = e;
-              showNotify({
+              userStore.purse.coin -= price.value;
+              showToast({
                 type: "success",
                 message: "修改成功！",
                 duration:800,
-                onClose(){
-                  setTimeout(router.back,10)
-                }
-              });
+                onClose(){setTimeout(router.back,10)}
+              })
             })
-            .catch(e=> showNotify(e.message))
+            .catch(({message})=> showToast({type: 'fail', message}))
       })
       .catch(e => {});
-}
-
-function selectFile(items: any) {
-  uploadAvatar(items.file)
-      .then((e) => {
-        showNotify({
-          type: "success",
-          message: "修改成功",
-        })
-        userStore.avatar = e;
-      })
-      .catch(({message})=>{
-        showNotify({
-          type:"danger",
-          message,
-        })
-      });
 }
 
 </script>

@@ -14,5 +14,5 @@ export const uploadAvatar = (file:File)=>{
 export const rename = (name:string)=>
     http.post<any, string>("/user/rename",name);
 
-export const firstRename = ()=>
-    http.get<any, number>("/user/firstRename");
+export const renameState = ()=>
+    http.get<any, { first:boolean, price:number, lastTime: string }>("/user/renameState");
