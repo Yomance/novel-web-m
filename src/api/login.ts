@@ -2,6 +2,10 @@ import {downloader,http} from "./index";
 import {Token} from "../views/mine/store";
 import {ref} from "vue";
 
+export const captchaGen = ()=>
+    http.get("/login/captcha/gen")
+
+
 export const sendPhoneCode = (codeId:string, phone:string)=>
     http.post("/login/register/phoneCode", null, {
         params:{codeId,phone}

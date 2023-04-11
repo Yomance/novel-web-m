@@ -1,5 +1,6 @@
 import {defineStore, StateTree} from "pinia";
 import {system} from "../../util/system";
+import {url} from "/src/util/file";
 
 export class ThemeConstants {
     private constructor() {
@@ -21,7 +22,7 @@ export const useReadThemeStore = defineStore({
         lineHeight: 1.4, // 行高
         letterSpacing: 0, // 字间距
         color: '#333', // 字体颜色
-        background: 'url("/src/assets/image/wallpapers/default.jpg")', // 背景
+        background: `url("${url('/image/wallpapers/default.jpg')}")`, // 背景
         isNight: false, // 是否为夜间模式
         brightness: 100, // 当前亮度值
         brightnessAutoSystem: false, // 亮度跟随系统 暂时不支持

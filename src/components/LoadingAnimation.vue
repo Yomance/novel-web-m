@@ -55,37 +55,37 @@ export default {
 }
 @keyframes load {
   0% {
-    background-image: url("/src/assets/image/loading/1.webp");
+    background-image: url("../assets/image/loading/1.webp");
   }
   10% {
-    background-image: url("/src/assets/image/loading/2.webp");
+    background-image: url("../assets/image/loading/2.webp");
   }
   20% {
-    background-image: url("/src/assets/image/loading/3.webp");
+    background-image: url("../assets/image/loading/3.webp");
   }
   30% {
-    background-image: url("/src/assets/image/loading/4.webp");
+    background-image: url("../assets/image/loading/4.webp");
   }
   40% {
-    background-image: url("/src/assets/image/loading/5.webp");
+    background-image: url("../assets/image/loading/5.webp");
   }
   50% {
-    background-image: url("/src/assets/image/loading/6.webp");
+    background-image: url("../assets/image/loading/6.webp");
   }
   60% {
-    background-image: url("/src/assets/image/loading/7.webp");
+    background-image: url("../assets/image/loading/7.webp");
   }
   70% {
-    background-image: url("/src/assets/image/loading/8.webp");
+    background-image: url("../assets/image/loading/8.webp");
   }
   80% {
-    background-image: url("/src/assets/image/loading/9.webp");
+    background-image: url("../assets/image/loading/9.webp");
   }
   90% {
-    background-image: url("/src/assets/image/loading/10.webp");
+    background-image: url("../assets/image/loading/10.webp");
   }
   100% {
-    background-image: url("/src/assets/image/loading/11.webp");
+    background-image: url("../assets/image/loading/11.webp");
   }
 }
 .loading-turn-book{
@@ -98,7 +98,7 @@ export default {
   background-color: #ffffff;
   border-radius: 50%;
   background-repeat: no-repeat;
-  background-image: url("/src/assets/image/loading/1.webp");
+  background-image: url("../assets/image/loading/1.webp");
   animation: load 1s infinite;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }

@@ -67,13 +67,14 @@
 
 <script lang="ts" setup>
 import {useReadThemeStore, ThemeConstants} from "../read-theme-store";
+import {url} from "/src/util/file";
 
 const theme = useReadThemeStore();
 
 const background = [
   {
     color: '#333',
-    background: 'url("/src/assets/image/wallpapers/default.jpg")',
+    background: `url("${url('/image/wallpapers/default.jpg')}")`,
   }, {
     color: '#333',
     background: '#cad9e8',

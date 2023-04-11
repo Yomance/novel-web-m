@@ -8,7 +8,7 @@
         @click-right="showShare = true"
     >
       <template #title>
-        <img alt="" src="/src/assets/image/cover/cover0.jpg" style="height: 100%">
+        <img alt="" :src="url('/cover0.jpg')" style="height: 100%">
         <div class="text">
           <div class="title">测试测试加测试</div>
           <div class="type">玄幻·东方玄幻</div>
@@ -20,9 +20,9 @@
     </van-nav-bar>
     <main @scroll="pageScroll" class="no-scroll-bar">
       <article class="title-container">
-        <img alt="" class="book-cover-blur" src="/src/assets/image/cover/cover0.jpg">
+        <img alt="" class="book-cover-blur" :src="url('/cover0.jpg')">
         <div class="title-body">
-          <img alt="" src="/src/assets/image/cover/cover0.jpg">
+          <img alt="" :src="url('/cover0.jpg')">
           <div class="text">
             <div class="title van-ellipsis">测试测试加测试测试测试加测试测试测试加测试测试测试加测试</div>
             <div class="author van-ellipsis">天蚕土豆 ></div>
@@ -63,6 +63,7 @@
 <script lang="ts" setup>
 import {ref} from "vue";
 import TextCollapsed from "../../components/TextCollapsed.vue";
+import {url} from "/src/util/file";
 const showShare = ref(false);
 const cover = "/src/assets/image/book.jpg";
 

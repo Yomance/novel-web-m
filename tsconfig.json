@@ -12,7 +12,11 @@
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "noEmit": true,
-    "types": ["pinia-plugin-persist-uni"]
+    "types": ["pinia-plugin-persist-uni"],
+    "baseUrl": "./",
+    "paths": {
+      "/src/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]

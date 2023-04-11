@@ -24,7 +24,7 @@
         </router-link>
       </div>
       <div class="vip">
-        <img alt="" src="/src/assets/image/free_vip_img.9.png">
+        <img alt="" :src="url('/image/free_vip_img.9.png')">
       </div>
       <van-grid :border="false" class="card" column-num="3">
         <van-grid-item icon="location" text="签到" @click="onSignIn"/>
@@ -49,6 +49,7 @@ import {mastLogin} from "../../util/router";
 import {showToast} from "vant";
 import StatusBar from "../../components/StatusBar.vue";
 import {signIn} from "../../api/activity";
+import {url} from "/src/util/file";
 const store = useUserStore();
 const router = useRouter();
 

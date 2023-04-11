@@ -14,8 +14,8 @@
               <div v-for="item in category" class="item" @click="onClick('category', item.name, item.id)">
                 <div class="text">{{ item.name }}</div>
                 <div class="books">
-                  <img alt="" class="top" src="/src/assets/cover.jpg">
-                  <img alt="" class="end" src="/src/assets/cover1.jpg">
+                  <img alt="" class="top" :src="url('/cover.jpg')">
+                  <img alt="" class="end" :src="url('/cover1.jpg')">
                 </div>
               </div>
             </div>
@@ -35,10 +35,10 @@
 import SimpleCard from "../../components/SimpleCard.vue";
 import {useRouter} from "vue-router";
 import {http} from "../../api";
-import {ClassifyViewModel} from "../../moke/classify";
 import {ref} from "vue";
 import {Category, Tag} from "../../type/book";
 import StatusBar from "../../components/StatusBar.vue";
+import {url} from "/src/util/file";
 
 const category = ref<Category[]>([]);
 const tags = ref<Tag[]>([]);
@@ -46,7 +46,7 @@ const pageLoading = ref(false);
 
 function loadData() {
   pageLoading.value = true;
-  http.get<ClassifyViewModel, ClassifyViewModel>("/classify").then(data => {
+  http.get("/classify").then(data => {
     category.value = data.categories;
     tags.value = data.tags;
   }).finally(() => pageLoading.value = false);

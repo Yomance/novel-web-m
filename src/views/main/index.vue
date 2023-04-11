@@ -7,7 +7,7 @@
       <van-tabbar-item v-for="e in list" replace  :to="{name:e.router}">
         <span>{{ e.label }}</span>
         <template #icon="props">
-          <img :src="'/src/assets/image/tabbar/'+e.image+(props.active ? 'Cur':'')+'.png'" alt=""/>
+          <img :src="url('/image/tabbar/'+e.image+(props.active ? 'Cur':'')+'.png')" alt=""/>
         </template>
       </van-tabbar-item>
     </van-tabbar>
@@ -17,6 +17,7 @@
 <script lang="ts" setup>
 import {ref} from "vue";
 import StatusBar from "../../components/StatusBar.vue";
+import {url} from "/src/util/file";
 const list = ref([
   {
     label:'首页',

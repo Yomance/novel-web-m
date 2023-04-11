@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import {http} from "../../api";
+import {url} from "/src/util/file";
 export interface Token {
     name: string;
     value: string;
@@ -11,7 +12,7 @@ export const useUserStore = defineStore({
     state: () => ({
         id: "", // 当前用户id
         username: "前往登录", // 用户名
-        avatar: "/src/assets/image/avatar/nologin.png", // 头像
+        avatar: url('/image/avatar/nologin.png'), // 头像
         readTime: 0, // 阅读时长 单位 分钟
         purse: {
             coin: 0, // 硬币
