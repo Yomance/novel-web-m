@@ -9,21 +9,21 @@
   <div class="show" v-if="log && log.state === AuthorAuditState.suc">
     <p>申请成功！</p>
     <p>现在可以点击下方“去写作”，开启作者之旅！</p>
-    <img style="max-width: 100%; max-height: 100%" src="/static/image/to-author-1.png" alt="">
+    <img style="max-width: 100%; max-height: 100%" :src="url('/image/to-author-1.png')" alt="">
   </div>
   <div class="show" v-else-if="log && log.state === AuthorAuditState.wait">
     <p>等待审核</p>
     <p>点击下方查看审核进度</p>
-    <img style="max-width: 100%; max-height: 100%" src="/static/image/to-author-2.png" alt="">
+    <img style="max-width: 100%; max-height: 100%" :src="url('/image/to-author-2.png')" alt="">
   </div>
   <div class="show" v-else-if="log && log.state === AuthorAuditState.fail">
     <p>审核失败</p>
     <p class="err">{{log.errMsg}}</p>
     <p >点击下方重新申请</p>
-    <img style="max-width: 100%; max-height: 100%" src="/static/image/to-author-3.png" alt="">
+    <img style="max-width: 100%; max-height: 100%" :src="url('/image/to-author-3.png')" alt="">
   </div>
   <div class="show" v-else>
-    <img style="max-width: 100%; max-height: 100%" src="/static/image/to-author.png" alt="">
+    <img style="max-width: 100%; max-height: 100%" :src="url('/image/to-author.png')" alt="">
   </div>
   <van-button v-if="log.state === AuthorAuditState.suc"  block type="primary" class="btn" @click="to">去写作</van-button>
   <van-button v-else-if="log.state === AuthorAuditState.wait" block type="primary" class="btn" @click="to">查看审核进度</van-button>
@@ -34,6 +34,7 @@ import {useRouter} from "vue-router";
 import {AuthorAudit, AuthorAuditState, newLog} from "../../api/to-author";
 import {ref} from "vue";
 import {showDialog, showToast} from "vant";
+import {url} from "/src/util/file";
 
 const router = useRouter();
 const loading = ref(true);

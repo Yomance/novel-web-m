@@ -19,7 +19,10 @@ export default defineConfig(({mode})=>{
             })
         ],
         server: {
-            host: '0.0.0.0'
+            host: '0.0.0.0',
+            proxy:{
+                // '/public': 'http://localhost:11001/',
+            }
         },
         base: base,
         build:{

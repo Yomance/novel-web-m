@@ -10,7 +10,7 @@
   >
     <div class="content">
       <div class="empty" v-if="isEmpty" >
-        <img style="max-width: 100%;" src="/static/image/no-comment-1.png" alt="暂无评论">
+        <img style="max-width: 100%;" :src="url('/image/no-comment-1.png')" alt="暂无评论">
         <div>暂无评论</div>
         <p>快来评论一下吧！</p>
       </div>
@@ -52,6 +52,7 @@ import {nextTick, reactive, ref} from "vue";
 import {addComment, page} from "../../api/comment";
 import {showToast} from "vant";
 import {useRouter} from "vue-router";
+import {url} from "/src/util/file";
 
 const emits = defineEmits(['update:show']);
 const props = defineProps({

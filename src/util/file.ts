@@ -2,9 +2,9 @@
 let BASE = import.meta.env.VITE_BASE_URI;
 
 if (BASE.endsWith("/")){
-    BASE+="static";
+    BASE+="assets/static";
 }else {
-    BASE+="/static"
+    BASE+="/assets/static"
 }
 
 export const url = (path:string)=>{
