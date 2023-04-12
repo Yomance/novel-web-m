@@ -62,3 +62,5 @@ instance.interceptors.response.use(response => {
     return Promise.reject({message: error.Message})
 })
 export const http = instance;
+
+export const getUrl = (uri:string)=>ConfigBaseURL+uri;

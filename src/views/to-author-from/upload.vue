@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { UploaderFileListItem } from 'vant';
 import { ref, computed } from 'vue';
+import {url} from "/src/util/file";
 const value = ref();
 const props = defineProps({
     isFront: {
@@ -19,7 +20,7 @@ const props = defineProps({
 });
 const emit = defineEmits(["select"]);
 // 图标
-const icon = computed(()=>`/static/image/id-card-${props.isFront ? 0 : 1}.png`);
+const icon = computed(()=>url(`/image/id-card-${props.isFront ? 0 : 1}.png`));
 // 提示文字
 const text = computed(()=>`上传身份证${props.isFront ? '正' : '反'}面`);
 // 读取文件成功后的回调

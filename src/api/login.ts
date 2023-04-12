@@ -1,7 +1,8 @@
-import {downloader,http} from "./index";
+import {downloader, getUrl, http} from "./index";
 import {Token} from "../views/mine/store";
 import {ref} from "vue";
-
+export const genCaptcha = getUrl("/login/captcha/gen");
+export const validCaptcha = getUrl("/login/captcha/check");
 export const captchaGen = ()=>
     http.get("/login/captcha/gen")
 

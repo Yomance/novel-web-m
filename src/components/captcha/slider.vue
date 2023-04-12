@@ -1,14 +1,15 @@
 <template>
   <transition name="plus-icon">
     <div class="mask" v-if="show">
-      <iframe class="slider" src="\static\html\captcha-slider.html" frameborder="0"></iframe>
+      <iframe id="captcha" class="slider" :src="url('/html/captcha-slider.html')" frameborder="0"></iframe>
     </div>
   </transition>
 </template>
 
 <script setup lang="ts">
-import { PropType, onMounted, onUnmounted } from 'vue';
-
+import {PropType, onMounted, onUnmounted } from 'vue';
+import {url} from "/src/util/file";
+import {genCaptcha, validCaptcha} from "/src/api/login";
 const props = defineProps({
   show: {
     type: Boolean as PropType<boolean>,
@@ -23,11 +24,13 @@ function getMessage({ data }: any) {
   }else if(state === 'success'){
       setTimeout(() => emits('update:show', false), 300);
       emits('success', data.value);
+  }else if (state === 'getUrl'){
+    const frame = document.getElementsByTagName('iframe')[0];
+    frame.contentWindow?.postMessage({gen:genCaptcha, valid:validCaptcha}, "*")
   }
 }
 onMounted(() => window.addEventListener('message', getMessage))
 onUnmounted(() => window.removeEventListener('message', getMessage))
-
 </script>
 
 <style lang="less" scoped>
