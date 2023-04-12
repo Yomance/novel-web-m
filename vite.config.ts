@@ -21,7 +21,11 @@ export default defineConfig(({mode})=>{
         server: {
             host: '0.0.0.0',
             proxy:{
-                // '/public': 'http://localhost:11001/',
+                '/static': {
+                    target: 'http://localhost:11001/',
+                    changeOrigin: true,
+                    rewrite: path => path.replace(/^\/static/, '')
+                },
             }
         },
         base: base,
