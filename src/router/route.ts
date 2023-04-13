@@ -97,6 +97,10 @@ const routes: RouteRecordRaw[] = [
     path: "/usernameEdit",
     name: "UsernameEdit",
     component: () => import("../views/username-edit/index.vue"),
+  },{
+    path: "/page",
+    name: "Page",
+    component: () => import("../views/page/index.vue"),
   },
 ];
 

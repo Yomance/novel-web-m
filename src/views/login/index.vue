@@ -44,6 +44,7 @@
             type="primary">
           登录
         </van-button>
+        <p class="to-register" @click="router.push('/register')">没有账号？去注册</p>
       </div>
     </van-form>
     <captcha-slider v-model:show="showCaptcha" @success="checkSuccess"/> 
@@ -53,7 +54,7 @@
 <script lang="ts" setup>
 import {ref} from "vue";
 import {useRouter} from "vue-router";
-import {getImageCode, login,getDefaultBean, LoginParam} from "../../api/login";
+import {getImageCode, login,getDefaultBean, LoginParam} from "/src/api/login";
 import {showToast} from "vant";
 import {useUserStore} from "../mine/store";
 import CaptchaSlider from '../../components/captcha/slider.vue';
@@ -69,11 +70,6 @@ const phoneCodeText = ref("发送验证码");
 const phoneCodeId = ref("");
 
 
-
-// 加载图片验证码
-const codeSrc = ref("");
-const onChangeImageCode = () => getImageCode().then(e => codeSrc.value = e)
-onChangeImageCode();
 const showCaptcha = ref(false);
 //
 const loading = ref(false);
@@ -82,6 +78,7 @@ const onSubmit = (e: LoginParam) => {
   showCaptcha.value = true;
   loginParam = e;
 }
+
 const checkSuccess = (id:any)=>{
   phoneCodeId.value = id;
   loading.value = true;
@@ -108,11 +105,18 @@ const checkSuccess = (id:any)=>{
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .login-view {
   width: 100%;
-  height: auto;
+  height: 100%;
   background: var(--background-color);
   padding-top: 100px;
+  .to-register{
+    float: right;
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 26px;
+    color: #777777;
+  }
 }
 </style>

@@ -25,8 +25,8 @@
   <div class="show" v-else>
     <img style="max-width: 100%; max-height: 100%" :src="url('/image/to-author.png')" alt="">
   </div>
-  <van-button v-if="log.state === AuthorAuditState.suc"  block type="primary" class="btn" @click="to">去写作</van-button>
-  <van-button v-else-if="log.state === AuthorAuditState.wait" block type="primary" class="btn" @click="to">查看审核进度</van-button>
+  <van-button v-if="log && log.state === AuthorAuditState.suc"  block type="primary" class="btn" @click="to">去写作</van-button>
+  <van-button v-else-if="log && log.state === AuthorAuditState.wait" block type="primary" class="btn" @click="to">查看审核进度</van-button>
   <van-button v-else block type="primary" class="btn" @click="to">申请成为作者</van-button>
 </template>
 <script setup lang="ts">

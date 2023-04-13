@@ -74,7 +74,7 @@
     <captcha-slider v-model:show="showCaptcha" @success="checkSuccess"/>
     <van-popup v-model:show="showGenderSelector" round position="bottom">
       <van-picker
-          :columns="[{ text: '女', value: '女' }, { text: '男', value: '男' },{ text: '保密', value: '保密' }]"
+          :columns="[{ text: '女', value: '女' }, { text: '男', value: '男' }]"
           @cancel="showGenderSelector = false"
           @confirm="onSelectGender"
       />
@@ -85,9 +85,9 @@
 <script lang="ts" setup>
 import {reactive, ref} from "vue";
 import {useRouter} from "vue-router";
-import {showFailToast, showLoadingToast, showNotify, showSuccessToast, showToast} from "vant";
-import CaptchaSlider from '../../components/captcha/slider.vue';
-import {register, sendPhoneCode} from "../../api/login";
+import {showLoadingToast, showToast,} from "vant";
+import CaptchaSlider from '/src/components/captcha/slider.vue';
+import {register, sendPhoneCode} from "/src/api/login";
 import {useUserStore} from "../mine/store";
 
 const userStore = useUserStore();
@@ -126,19 +126,19 @@ const checkSuccess = (id: any) => {
   });
   sendPhoneCode(id, data.phone)
       .then(e => {
-        showNotify({
+        showToast({
           type: 'success',
           message: '验证码已发送'
         })
       })
       .catch(e => {
-        showNotify({
-          type: 'danger',
+        showToast({
+          type: 'fail',
           message: e.message || "系统错误"
         })
       })
       .finally(toast.close)
-  let s = 20;
+  let s = 60;
   const interval = setInterval(() => {
     if (s == 0) {
       clearInterval(interval);
@@ -168,8 +168,8 @@ const onSubmit = () => {
         router.push({name:'Mine'})
       })
       .catch(e=>{
-        showNotify({
-          type:"danger",
+        showToast({
+          type: 'fail',
           message:e.message,
           duration: 1500,
         })

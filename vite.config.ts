@@ -15,7 +15,7 @@ export default defineConfig(({mode})=>{
         plugins: [
             vue(),
             Components({
-                resolvers: [VantResolver()],
+                resolvers: [VantResolver({importStyle: false})],
             })
         ],
         server: {

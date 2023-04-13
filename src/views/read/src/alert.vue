@@ -167,7 +167,7 @@ const onBrightnessChange = (v: number) => {
     bottom: 0;
     left: 0;
     width: 100%;
-    transition: bottom .5s;
+    transition: transform .5s;
     display: flex;
     flex-direction: column;
     color: #FFFFFF;
@@ -179,7 +179,7 @@ const onBrightnessChange = (v: number) => {
     --van-tabbar-item-text-color: var(--a-text-color);
 
     &.hidden {
-      bottom: -20%;
+      transform: translate(0, 101%);
     }
   }
 }
