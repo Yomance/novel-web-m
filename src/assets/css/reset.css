@@ -166,3 +166,11 @@ li {
 }
 
 /************  iconfont居中  *****************************/
+
+.van-cell .van-icon{
+    line-height: var(--van-cell-line-height);
+
+}
+.van-grid-item__content.van-grid-item__content--center  .van-icon{
+    font-size: var(--van-grid-item-icon-size);
+}

@@ -30,7 +30,7 @@ export default defineConfig(({mode})=>{
         },
         base: base,
         build:{
-            outDir: "C:/Program Files/nginx-1.9.8/html/m",
+            outDir: "dist",
             terserOptions: {
                 compress: {
                     drop_console: true,

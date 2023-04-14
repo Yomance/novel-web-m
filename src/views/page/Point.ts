@@ -3,6 +3,9 @@ export class Point{
     public static of(x:number, y:number):Point{
         return new Point(x,y);
     }
+    public static copyOf(p:Point){
+        return this.of(p.x, p.y);
+    }
     public y: number;
     public x: number;
     constructor(x:number, y:number) {

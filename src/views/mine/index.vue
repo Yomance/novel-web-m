@@ -19,7 +19,7 @@
             <div class="desc">推荐卡</div>
           </div>
         </div>
-        <router-link to="/pay">
+        <router-link to="/pay" v-if="store.isLogin">
           <div class="btn">充值</div>
         </router-link>
       </div>
@@ -35,6 +35,7 @@
         <van-cell icon="orders-o" title="最近阅读" @click="mastLogin({name:'History'})"/>
         <van-cell icon="comment-o" title="想法"/>
         <van-cell icon="point-gift-o" title="成为作者" @click="router.push({name:'ToAuthor'})"/>
+        <van-cell icon="point-gift-o" title="测试页面" to="/page"/>
       </van-cell-group>
       <van-button v-if="store.isLogin" block @click="store.logout()">退出登录</van-button>
       <van-button v-else block type="success" @click="router.push({name:'Login'})">去登录</van-button>
