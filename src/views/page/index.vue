@@ -7,17 +7,14 @@ import {onMounted} from "vue";
 import {Main} from "/src/views/page/Main";
 
 onMounted(()=>{
-  const app = document.body;
-  const w = app.offsetWidth;
-  const h = app.offsetHeight;
   const c = document.getElementsByTagName('canvas')[0];
-  new Main(c,w,h);
+  new Main(c);
 })
 </script>
 <style>
 #app{
   background-color: #d7d7d7;
-
+  overflow: hidden;
 }
 canvas{
   width: 100%;

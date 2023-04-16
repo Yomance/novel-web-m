@@ -21,10 +21,15 @@ export class PointContainer {
         this.a = Point.of(x, y);
     }
 
-    public move(p: Point) {
+    public move(p: Point, setC:boolean=true) {
         this.a.copyOf(p);
-        this.calcPointAByTouchPoint()
         this.calc();
+        if (setC){
+            if (this.calcPointCX() < 0){
+                this.calcPointAByTouchPoint();
+                this.calc();
+            }
+        }
     }
 
 
@@ -56,32 +61,24 @@ export class PointContainer {
 
 
     /**
-     *    float w0 = viewWidth - c.x;
-     *    float w1 = Math.abs(f.x - a.x);
-     *    float w2 = viewWidth * w1 / w0;
-     *    a.x = Math.abs(f.x - w2);
-     *    float h1 = Math.abs(f.y - a.y);
-     *    float h2 = w2 * h1 / w1;
-     *    a.y = Math.abs(f.y - h2);
-     *
      * 如果c点x坐标小于0,根据触摸点重新测量a点坐标
      */
     private calcPointAByTouchPoint() {
-        // todo 有bug
-        const v = this.calcPointCX();
-        if (v < 0) {
-            let w = this.f.x;
-            let w0 = w - this.c.x;
-            let w1 = Math.abs(this.f.x - this.a.x);
-            let w2 = w * w1 / w0;
-            this.a.x = Math.abs(this.f.x - w2);
-            let h1 = Math.abs(this.f.y - this.a.y);
-            let h2 = w2 * h1 / w1;
-            console.log(w2,h2)
-            this.a.y = Math.abs(this.f.y - h2);
-        }
+        let w = this.f.x;
+        let w0 = w - this.c.x;
+        let w1 = Math.abs(this.f.x - this.a.x);
+        let w2 = w * w1 / w0;
+        this.a.x = Math.abs(this.f.x - w2);
+        let h1 = Math.abs(this.f.y - this.a.y);
+        let h2 = w2 * h1 / w1;
+        this.a.y = Math.abs(this.f.y - h2);
     }
 
+    /**
+     * 计算C点的X值
+     * @private
+     * @return val
+     */
     private calcPointCX() {
         let a = Point.copyOf(this.a);
         let f = Point.copyOf(this.f);
@@ -98,29 +95,29 @@ export class PointContainer {
 
 /**
  * 计算两线段相交点坐标
- * @param lineOne_My_pointOne
- * @param lineOne_My_pointTwo
- * @param lineTwo_My_pointOne
- * @param lineTwo_My_pointTwo
+ * @param p1
+ * @param p2
+ * @param p3
+ * @param p4
  * @return 返回该点
  */
 function getIntersectionPoint(
-    lineOne_My_pointOne: Point,
-    lineOne_My_pointTwo: Point,
-    lineTwo_My_pointOne: Point,
-    lineTwo_My_pointTwo: Point
+    p1: Point,
+    p2: Point,
+    p3: Point,
+    p4: Point
 ) {
-    let x1 = lineOne_My_pointOne.x,
-        y1 = lineOne_My_pointOne.y,
-        x2 = lineOne_My_pointTwo.x,
-        y2 = lineOne_My_pointTwo.y,
-        x3 = lineTwo_My_pointOne.x,
-        y3 = lineTwo_My_pointOne.y,
-        x4 = lineTwo_My_pointTwo.x,
-        y4 = lineTwo_My_pointTwo.y;
-    let pointX = ((x1 - x2) * (x3 * y4 - x4 * y3) - (x3 - x4) * (x1 * y2 - x2 * y1))
+    let x1 = p1.x,
+        y1 = p1.y,
+        x2 = p2.x,
+        y2 = p2.y,
+        x3 = p3.x,
+        y3 = p3.y,
+        x4 = p4.x,
+        y4 = p4.y;
+    let x = ((x1 - x2) * (x3 * y4 - x4 * y3) - (x3 - x4) * (x1 * y2 - x2 * y1))
         / ((x3 - x4) * (y1 - y2) - (x1 - x2) * (y3 - y4));
-    let pointY = ((y1 - y2) * (x3 * y4 - x4 * y3) - (x1 * y2 - x2 * y1) * (y3 - y4))
+    let y = ((y1 - y2) * (x3 * y4 - x4 * y3) - (x1 * y2 - x2 * y1) * (y3 - y4))
         / ((y1 - y2) * (x3 - x4) - (x1 - x2) * (y3 - y4));
-    return Point.of(pointX, pointY);
+    return Point.of(x, y);
 }
