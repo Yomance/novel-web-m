@@ -1,6 +1,6 @@
-import {PointContainer} from "/src/views/page/PointContainer";
-import {Point,bz2} from "/src/views/page/Point";
-import {Config} from "/src/views/page/Config";
+import {PointContainer} from "./PointContainer";
+import {Point,bz2} from "./Point";
+import {Config} from "./Config";
 
 
 export abstract class TurnPage{

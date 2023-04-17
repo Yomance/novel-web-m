@@ -31,7 +31,7 @@ interface ConfParam {
     cancelTurnPageStep?: number; // 取消翻页动画步长
     shadowStart?: string; // 阴影开始颜色
     shadowEnd?: string; // 阴影结束颜色
-    cancelTurnPageFlag: number; // 取消翻页的大小 0-1
+    cancelTurnPageFlag?: number; // 取消翻页的大小 0-1
     headerHeight?:number; // 上下内边距
     footerHeight?:number; // 上下内边距
 }
@@ -51,6 +51,25 @@ const CONF:ConfParam  = {
     headerHeight:30, // 上下内边距
     footerHeight:30, // 上下内边距
 }
+export const getConf = (c:ConfParam)=>{
+    let res = {
+        lineHeight: 26,
+        fontSize: 16,
+        fontFamily: "sans-serif",
+        padding: 16,
+        backgroundColor: "#edd19c",
+        color: "#000",
+        turnPageStep: 16,
+        cancelTurnPageStep: 8,
+        shadowStart: "rgba(0,0,0,0.5)",
+        shadowEnd: "rgba(0,0,0,0)",
+        cancelTurnPageFlag: 0.33,
+        headerHeight:30, // 上下内边距
+        footerHeight:30, // 上下内边距
+    };
+    Object.assign(res, c);
+    return res;
+}
 
 export class Config {
     public readonly ctx:CanvasRenderingContext2D;
@@ -61,8 +80,8 @@ export class Config {
     private readonly fontSize: number; // 字号
     private readonly fontFamily: string; // 字体
     public readonly padding: number; // 内边距
-    public readonly backgroundColor: string; // 背景颜色
-    public readonly color: string; // 字体颜色
+    public backgroundColor: string; // 背景颜色
+    public color: string; // 字体颜色
     public readonly turnPageStep: number; // 翻页动画步长
     public readonly cancelTurnPageStep: number; // 取消翻页动画步长
     public readonly shadowStart: string; // 阴影开始颜色
@@ -98,6 +117,7 @@ export class Config {
         // @ts-ignore
         this.shadowEnd = conf.shadowEnd;
         this.font = this.fontSize + 'px ' + this.fontFamily;
+        // @ts-ignore
         this.cancelTurnPageSize = this.pageWidth*conf.cancelTurnPageFlag;
         // @ts-ignore
         this.headerHeight = conf.headerHeight*devicePixelRatio;

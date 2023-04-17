@@ -11,7 +11,7 @@
     </div>
     <div :class="{hidden: !show}" class="footer">
       <setting-list v-show="showSetting"/>
-      <chapter-selector v-show="!showSetting"/>
+      <chapter-selector v-if="settingStore.turnPageType !== 'emulation'"  v-show="!showSetting"/>
       <van-tabbar :border="false" :fixed="false">
         <van-tabbar-item
             icon="bars"
@@ -46,7 +46,8 @@ import {addShelf} from "../../../api/bookshelf";
 import {useBookStore} from "../../../store/book";
 import {showToast} from "vant";
 import {needLogin} from "../../../util/login";
-
+import {useReadSettingStore} from "/src/views/read/setting";
+const settingStore = useReadSettingStore();
 const chapterStore = useChapterStore();
 
 const tmp = ref(false);

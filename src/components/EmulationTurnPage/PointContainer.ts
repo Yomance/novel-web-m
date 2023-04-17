@@ -1,4 +1,4 @@
-import {Point} from "/src/views/page/Point";
+import {Point} from "./Point";
 
 
 export class PointContainer {

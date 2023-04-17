@@ -1,5 +1,5 @@
-import {calcText} from "/src/views/page/CalcText";
-import {Config} from "/src/views/page/Config";
+import {calcText} from "./CalcText";
+import {Config} from "./Config";
 
 export interface Chapter{
     id:string,

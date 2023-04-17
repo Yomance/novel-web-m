@@ -1,7 +1,6 @@
-import {TurnPage} from "/src/views/page/TurnPage";
-import {Config} from "/src/views/page/Config";
-import {Chapter, DataContainer} from "/src/views/page/DataContainer";
-import {lastChapter, nextChapter, staticData} from "./data";
+import {TurnPage} from "./TurnPage";
+import {Config} from "./Config";
+import {Chapter, DataContainer} from "./DataContainer";
 
 
 export class TurnPageNovel extends TurnPage{
@@ -26,10 +25,14 @@ export class TurnPageNovel extends TurnPage{
                 this.drawFinish();
             }
         }else {
+            this.drawTitle(current.name);
             this.drawPage(current.list);
         }
     }
 
+    protected drawTitle(title:string){
+        this.ctx.fillText(title, this.conf.padding, this.conf.padding+this.conf.headerHeight/2);
+    }
     protected drawB() {
         this.ctx.fillStyle=this.conf.backgroundColor;
         this.ctx.fillRect(0,0,this.W, this.H)
@@ -45,6 +48,7 @@ export class TurnPageNovel extends TurnPage{
                 this.drawFinish();
             }
         }else {
+            this.drawTitle(current.name);
             this.drawPage(current.list);
         }
     }

@@ -2,6 +2,7 @@ import {defineStore, StateTree} from "pinia";
 import {system} from "../../util/system";
 import {url} from "/src/util/file";
 
+const IMAGE_BACK = `url("${url('/image/wallpapers/default.jpg')}")`;
 export class ThemeConstants {
     private constructor() {
     }
@@ -36,7 +37,7 @@ export const useReadThemeStore = defineStore({
             lineHeight: state.lineHeight,
             letterSpacing: state.letterSpacing + 'px',
             color: state.isNight ? ThemeConstants.NIGHT_COLOR : state.color,
-            background: state.isNight ? ThemeConstants.NIGHT_BACKGROUND : state.background
+            background: state.isNight ? ThemeConstants.NIGHT_BACKGROUND : state.background === "#edd19c" ? IMAGE_BACK : state.background
         }),
     },
     actions: {
@@ -70,6 +71,10 @@ export const useReadThemeStore = defineStore({
             this.brightnessAutoSystem = !this.brightnessAutoSystem;
             console.error("暂不支持此功能")
         }
+    },
+    persist: {
+        enabled: true,
+        strategies: [{storage: localStorage,}]
     }
 })
 
