@@ -1,6 +1,5 @@
 import {PointContainer} from "/src/views/page/PointContainer";
-import {Point} from "/src/views/page/Point";
-import {bz2} from "/src/views/page/Path";
+import {Point,bz2} from "/src/views/page/Point";
 import {Config} from "/src/views/page/Config";
 
 
@@ -8,6 +7,7 @@ export abstract class TurnPage{
     protected conf: Config;
     private readonly pc: PointContainer;
     protected readonly ctx:CanvasRenderingContext2D;
+    public onclick?:Function = undefined;
     /**
      * 画布宽度
      * @private
@@ -31,15 +31,18 @@ export abstract class TurnPage{
      */
     private isAnimation:boolean = false;
 
-    protected constructor(ctx:CanvasRenderingContext2D, conf:Config) {
-        this.ctx = ctx;
+    protected turnType:"last"|"next"="next";
+    private isClick = false;
+
+    protected constructor(conf:Config) {
         this.conf = conf;
+        this.ctx = conf.ctx;
         this.W = conf.pageWidth;
         this.H = conf.pageHeight;
         this.pc = new PointContainer(this.W, this.H);
-        ctx.canvas.ontouchend = this.touchEnd.bind(this);
-        ctx.canvas.ontouchmove = this.touchMove.bind(this);
-        ctx.canvas.ontouchstart = this.touchStart.bind(this);
+        // this.ctx.canvas.ontouchend = this.touchEnd.bind(this);
+        // this.ctx.canvas.ontouchmove = this.touchMove.bind(this);
+        this.ctx.canvas.ontouchstart = this.touchStart.bind(this);
     }
 
     /**
@@ -54,13 +57,28 @@ export abstract class TurnPage{
 
     private touchStart(ev:TouchEvent){
         if (this.isAnimation) return;
-        let {y} = this.getEventPoint(ev);
+        this.isClick = true;
+        let {x,y} = this.getEventPoint(ev);``
+        if (x< this.W/3){
+            if (this.hasLast()){
+                this.ctx.canvas.ontouchmove =  this.touchMove.bind(this);
+                this.ctx.canvas.ontouchend = this.touchEnd.bind(this);
+            }
+            this.turnType = "last";
+        }else {
+            if (this.hasNext()){
+                this.ctx.canvas.ontouchmove =  this.touchMove.bind(this);
+                this.ctx.canvas.ontouchend = this.touchEnd.bind(this);
+            }
+            this.turnType = "next";
+        }
         if (y < this.H*0.66666){
             this.isSlideSideways = true;
         }
     }
     private touchMove(ev:TouchEvent){
         if (this.isAnimation) return;
+        this.isClick = false;
         let {x,y} = this.getEventPoint(ev);
         if (this.isSlideSideways){
             this.pc.move(Point.of(x, this.H-0.0001));
@@ -71,13 +89,32 @@ export abstract class TurnPage{
     }
     private touchEnd(ev:TouchEvent){
         if (this.isAnimation) return;
-        let {x} = this.getEventPoint(ev);
-        this.isSlideSideways = false;
-        if (x >= this.W - this.conf.cancelTurnPageSize) {
-            this.cancelTurnPageNext();
-        }else {
-            this.turnPageNext();
+        if (this.isClick){
+            if (this.onclick){
+                this.onclick();
+            }
+            return;
         }
+        let {x} = this.getEventPoint(ev);
+        if (this.turnType === "next"){
+            if (x >= this.W - this.conf.cancelTurnPageSize) {
+                this.cancelTurnPageNext();
+            }else {
+                this.turnPageNext();
+            }
+            this.isSlideSideways = false;
+        }else if (this.turnType === "last"){
+            if (x > this.W/3) {
+                this.cancelTurnPageNext();
+            }else {
+                this.turnPageNext();
+            }
+            this.isSlideSideways = false;
+        }else {
+            console.log(this.turnType)
+        }
+        this.ctx.canvas.ontouchmove = undefined;
+        this.ctx.canvas.ontouchend = undefined;
     }
 
     /**
@@ -100,6 +137,9 @@ export abstract class TurnPage{
             this.onDraw();
             if (p.x > w || p.y>h){
                 this.isAnimation = false;
+                if (this.turnType == "last"){
+                    this.last();
+                }
                 return;
             }
             requestAnimationFrame(am);
@@ -121,8 +161,10 @@ export abstract class TurnPage{
             this.pc.move(p, false);
             this.onDraw();
             if (p.x > w || p.y>h){
-                this.drawC(this.ctx);
-                this.next();
+                this.drawC();
+                if (this.turnType === 'next'){
+                    this.next();
+                }
                 this.isAnimation = false;
                 return;
             }
@@ -210,7 +252,7 @@ export abstract class TurnPage{
         // 绘制a
         this.ctx.save();
         this.ctx.clip(qa);
-        this.drawA(this.ctx);
+        this.drawA();
         // 绘制阴影
         this.ctx.shadowBlur=20;
         this.ctx.shadowOffsetX=-5;
@@ -222,7 +264,7 @@ export abstract class TurnPage{
         // 绘制b
         this.ctx.save();
         this.ctx.clip(qb)
-        this.drawB(this.ctx);
+        this.drawB();
         this.drawShadowB();
         this.ctx.restore();
         // 绘制页面边缘的线条
@@ -230,7 +272,7 @@ export abstract class TurnPage{
         // 绘制c
         this.ctx.save();
         this.ctx.clip(qc);
-        this.drawC(this.ctx);
+        this.drawC();
         this.drawShadowC();
         this.ctx.restore();
     }
@@ -284,9 +326,26 @@ export abstract class TurnPage{
         this.ctx.strokeText('k', this.pc.k.x, this.pc.k.y);
     }
 
-    protected abstract drawA(ctx:CanvasRenderingContext2D):void;
-    protected abstract drawB(ctx:CanvasRenderingContext2D):void;
-    protected abstract drawC(ctx:CanvasRenderingContext2D):void;
+    protected abstract drawA():void;
+    protected abstract drawB():void;
+    protected abstract drawC():void;
     protected abstract next():void;
     protected abstract last():void;
+    protected abstract hasLast():boolean;
+    protected abstract hasNext():boolean;
+    protected drawLoading(){
+        const width = this.ctx.measureText("加载中……").width/2;
+        this.ctx.fillText("加载中……", this.W/2-width, this.H/2-width);
+    }
+    protected drawFinish(){
+        const width = this.ctx.measureText("暂无更多章节").width/2;
+        this.ctx.fillText("暂无更多章节", this.W/2-width, this.H/2-width);
+    }
+    public flush(){
+        if (this.turnType === "next") {
+            this.drawA();
+        }else {
+            this.drawC();
+        }
+    }
 }

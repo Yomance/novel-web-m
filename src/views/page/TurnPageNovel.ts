@@ -1,41 +1,52 @@
 import {TurnPage} from "/src/views/page/TurnPage";
-import {CalcTextPage} from "/src/views/page/CalcText";
 import {Config} from "/src/views/page/Config";
-
-const PADDING_TB=30;
+import {Chapter, DataContainer} from "/src/views/page/DataContainer";
+import {lastChapter, nextChapter, staticData} from "./data";
 
 
 export class TurnPageNovel extends TurnPage{
     private readonly paddingLR: number;
-    private readonly paddingTB: number;
-    private readonly calcTextPage:CalcTextPage;
+    private dc:DataContainer;
 
-    constructor(ctx: CanvasRenderingContext2D, conf:Config) {
-        super(ctx, conf);
+    constructor(conf:Config, data: any, next:()=>Promise<Chapter>, last:()=>Promise<Chapter>) {
+        super(conf);
         this.paddingLR = conf.padding;
-        this.paddingTB = (PADDING_TB+this.paddingLR)*conf.devicePixelRatio;
         this.ctx.font=conf.font;
-        this.calcTextPage = new CalcTextPage( ctx, this.W-this.paddingLR*2, this.H-this.paddingTB*2,conf.lineHeight);
+        this.dc = new DataContainer(data, next, last, conf, this.flush.bind(this));
+        this.drawA();
     }
 
-    public addChapter(data:any){
-        this.calcTextPage.add(data);
-        this.drawA(this.ctx);
-    }
-
-    protected drawA(ctx: CanvasRenderingContext2D) {
+    protected drawA() {
         this.extracted();
-        this.calcTextPage.drawCurrent(this.paddingLR, this.paddingTB);
+        const current =this.turnType === "next"? this.dc.getCurrent(): this.dc.getLast();
+        if (typeof current === 'string'){
+            if (current === "loading"){
+                this.drawLoading()
+            }else {
+                this.drawFinish();
+            }
+        }else {
+            this.drawPage(current.list);
+        }
     }
 
-    protected drawB(ctx: CanvasRenderingContext2D) {
-        ctx.fillStyle=this.conf.backgroundColor;
-        ctx.fillRect(0,0,this.W, this.H)
+    protected drawB() {
+        this.ctx.fillStyle=this.conf.backgroundColor;
+        this.ctx.fillRect(0,0,this.W, this.H)
     }
 
-    protected drawC(ctx: CanvasRenderingContext2D) {
+    protected drawC() {
         this.extracted();
-        this.calcTextPage.drawNext(this.paddingLR, this.paddingTB);
+        const current =this.turnType === "next"? this.dc.getNext(): this.dc.getCurrent();
+        if (typeof current === 'string'){
+            if (current === "loading"){
+                this.drawLoading()
+            }else {
+                this.drawFinish();
+            }
+        }else {
+            this.drawPage(current.list);
+        }
     }
 
     private extracted() {
@@ -46,10 +57,26 @@ export class TurnPageNovel extends TurnPage{
     }
 
     protected last(): void {
-        this.calcTextPage.last();
+        this.dc.last();
     }
 
     protected next(): void {
-        this.calcTextPage.next();
+        this.dc.next();
+    }
+    protected hasLast(): boolean {
+        return this.dc.hasLast();
+    }
+    protected hasNext(): boolean {
+        return this.dc.hasNext();
+    }
+
+    private drawPage(lines: string[]){
+        let left = this.conf.padding;
+        let top = this.conf.padding+this.conf.headerHeight;
+        top += this.conf.lineHeight / 2;
+        for (let v of lines) {
+            this.ctx.fillText(v, left, top);
+            top += this.conf.lineHeight;
+        }
     }
 }

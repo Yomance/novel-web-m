@@ -32,6 +32,8 @@ interface ConfParam {
     shadowStart?: string; // 阴影开始颜色
     shadowEnd?: string; // 阴影结束颜色
     cancelTurnPageFlag: number; // 取消翻页的大小 0-1
+    headerHeight?:number; // 上下内边距
+    footerHeight?:number; // 上下内边距
 }
 
 const CONF:ConfParam  = {
@@ -46,9 +48,12 @@ const CONF:ConfParam  = {
     shadowStart: "rgba(0,0,0,0.5)",
     shadowEnd: "rgba(0,0,0,0)",
     cancelTurnPageFlag: 0.33,
+    headerHeight:30, // 上下内边距
+    footerHeight:30, // 上下内边距
 }
 
 export class Config {
+    public readonly ctx:CanvasRenderingContext2D;
     public readonly devicePixelRatio: number; // 像素比
     public readonly pageWidth: number; // 页面宽度
     public readonly pageHeight: number; // 页面高度
@@ -62,16 +67,18 @@ export class Config {
     public readonly cancelTurnPageStep: number; // 取消翻页动画步长
     public readonly shadowStart: string; // 阴影开始颜色
     public readonly shadowEnd: string; // 阴影结束颜色
-    public readonly font: string; //
-    public readonly cancelTurnPageSize:number; // 取消翻页的大小
+    public readonly font: string; // css-font 字体
+    public readonly cancelTurnPageSize:number; // 取消翻页的大小 滑动到多少取消翻页
+    public headerHeight: number; // 顶部的高度
+    public footerHeight: number; // 底部的高度
+    public readonly pageLines:number;// 一页的行数
 
     // @ts-ignore
-    constructor(devicePixelRatio: number, width:number, height: number, conf:ConfParam=CONF) {
+    constructor(devicePixelRatio: number, width:number, height: number, ctx:CanvasRenderingContext2D, conf:ConfParam=CONF) {
+        this.ctx = ctx;
         this.devicePixelRatio = devicePixelRatio;
         this.pageWidth = width * devicePixelRatio;
         this.pageHeight = height * devicePixelRatio;
-        // @ts-ignore
-        this.lineHeight = conf.lineHeight * devicePixelRatio;
         // @ts-ignore
         this.fontSize = conf.fontSize * devicePixelRatio;
         // @ts-ignore
@@ -91,7 +98,18 @@ export class Config {
         // @ts-ignore
         this.shadowEnd = conf.shadowEnd;
         this.font = this.fontSize + 'px ' + this.fontFamily;
-
         this.cancelTurnPageSize = this.pageWidth*conf.cancelTurnPageFlag;
+        // @ts-ignore
+        this.headerHeight = conf.headerHeight*devicePixelRatio;
+        // @ts-ignore
+        this.footerHeight = conf.footerHeight*devicePixelRatio;
+
+
+        // @ts-ignore
+        this.lineHeight = conf.lineHeight * devicePixelRatio;
+
+        const h = this.pageHeight-(this.padding+this.padding+this.headerHeight+this.footerHeight);
+        this.pageLines = Math.floor(h/this.lineHeight);
+        this.lineHeight = h/this.pageLines;
     }
 }
