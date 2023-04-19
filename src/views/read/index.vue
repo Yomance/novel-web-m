@@ -1,5 +1,7 @@
 <template>
+  <yun-turn-page v-if="settingStore.turnPageType === 'emulation'" @click="showSetting = !showSetting" />
   <div
+      v-else
       :style="themeStore.styleObject"
       class="read-view"
   >
@@ -23,11 +25,13 @@ import {computed, ref, watch} from "vue";
 import {useReadThemeStore} from "./read-theme-store";
 import YunContent from './src/content.vue';
 import Buy from "./src/buy.vue";
-import {useBookStore} from "../../store/book";
-import {useChapterStore} from "../../store/chapter";
+import {useBookStore} from "/src/store/book";
+import {useChapterStore} from "/src/store/chapter";
 import {useRoute, useRouter} from "vue-router";
 import YunComment from '../../components/comment/index.vue';
-
+import YunTurnPage from './src/emulation.vue';
+import {useReadSettingStore} from "/src/views/read/setting";
+const settingStore = useReadSettingStore();
 const isBuy = computed(()=>{
   return chapterStore.loading || chapterStore.chapter.free || chapterStore.chapter?.isBuy
 });

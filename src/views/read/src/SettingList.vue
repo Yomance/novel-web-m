@@ -1,29 +1,29 @@
 <template>
   <div class="setting-list">
-    <div class="item brightness">
-      <div class="title">亮度</div>
-      <button class="slider-container">
-        <van-slider
-            v-model="theme.brightness"
-            :disabled="theme.brightnessAutoSystem"
-            :max="ThemeConstants.MAX_BRIGHTNESS"
-            :min="ThemeConstants.MIN_BRIGHTNESS"
-            @update:model-value="theme.setBrightness"/>
-      </button>
-      <button>
-        <van-button
-            disabled
-            :class="{active: theme.brightnessAutoSystem}"
-            class="auto-system"
-            icon="success"
-            icon-position="right"
-            round
-            size="small"
-            @click="theme.setBrightnessAutoSystem()"
-        >跟随系统
-        </van-button>
-      </button>
-    </div>
+<!--    <div class="item brightness">-->
+<!--      <div class="title">亮度</div>-->
+<!--      <button class="slider-container">-->
+<!--        <van-slider-->
+<!--            v-model="theme.brightness"-->
+<!--            :disabled="theme.brightnessAutoSystem"-->
+<!--            :max="ThemeConstants.MAX_BRIGHTNESS"-->
+<!--            :min="ThemeConstants.MIN_BRIGHTNESS"-->
+<!--            @update:model-value="theme.setBrightness"/>-->
+<!--      </button>-->
+<!--      <button>-->
+<!--        <van-button-->
+<!--            disabled-->
+<!--            :class="{active: theme.brightnessAutoSystem}"-->
+<!--            class="auto-system"-->
+<!--            icon="success"-->
+<!--            icon-position="right"-->
+<!--            round-->
+<!--            size="small"-->
+<!--            @click="theme.setBrightnessAutoSystem()"-->
+<!--        >跟随系统-->
+<!--        </van-button>-->
+<!--      </button>-->
+<!--    </div>-->
     <div class="item font">
       <div class="title">字号</div>
       <van-button
@@ -52,14 +52,15 @@
             :class="{active: item.background === theme.background && item.color === theme.color}"
             :style="{background: item.background}"
             class="back-one"
-            @click="theme.setTheme(item)"
+            @click="changeBackground(item)"
         />
       </div>
     </div>
     <div class="item turn">
       <div class="title">翻页</div>
       <div class="con">
-        <van-button class="turn-one active" round size="small">上下(手动)</van-button>
+        <van-button class="turn-one" :class="{active:settingStore.turnPageType === 'tb'}" round size="small" @click="settingStore.turnPageType = 'tb'">上下(手动)</van-button>
+        <van-button class="turn-one" :class="{active:settingStore.turnPageType === 'emulation'}" round size="small" @click="settingStore.turnPageType = 'emulation'">仿真</van-button>
       </div>
     </div>
   </div>
@@ -68,13 +69,21 @@
 <script lang="ts" setup>
 import {useReadThemeStore, ThemeConstants} from "../read-theme-store";
 import {url} from "/src/util/file";
-
+import {useReadSettingStore} from "/src/views/read/setting";
+const settingStore = useReadSettingStore();
 const theme = useReadThemeStore();
-
+const changeBackground = (item:any)=>{
+  if (settingStore.turnPageType == 'emulation'){
+    settingStore.conf.color = item.color;
+    settingStore.conf.backgroundColor = item.background;
+    settingStore.novel.flush();
+  }
+  theme.setTheme(item);
+}
 const background = [
   {
     color: '#333',
-    background: `url("${url('/image/wallpapers/default.jpg')}")`,
+    background: `#edd19c`,
   }, {
     color: '#333',
     background: '#cad9e8',
