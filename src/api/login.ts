@@ -46,7 +46,7 @@ export interface LoginParam {
 
 export const getDefaultBean = (): LoginParam => ({
     phone: "17631424475",
-    password: "123456",
+    password: "",
     key: "",
     imageCode: "",
 })

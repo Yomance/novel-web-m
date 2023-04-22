@@ -97,6 +97,10 @@ const routes: RouteRecordRaw[] = [
     path: "/usernameEdit",
     name: "UsernameEdit",
     component: () => import("../views/username-edit/index.vue"),
+  },{
+    path: "/selfComment",
+    name: "SelfComment",
+    component: () => import("../views/self-comment/index.vue"),
   }
 ];
 

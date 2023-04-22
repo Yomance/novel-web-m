@@ -33,9 +33,8 @@
       </van-grid>
       <van-cell-group inset>
         <van-cell icon="orders-o" title="最近阅读" @click="mastLogin({name:'History'})"/>
-        <van-cell icon="comment-o" title="想法"/>
+        <van-cell icon="comment-o" title="评论" @click="mastLogin('/selfComment')"/>
         <van-cell icon="point-gift-o" title="成为作者" @click="router.push({name:'ToAuthor'})"/>
-        <van-cell icon="point-gift-o" title="测试页面" to="/page"/>
       </van-cell-group>
       <van-button v-if="store.isLogin" block @click="store.logout()">退出登录</van-button>
       <van-button v-else block type="success" @click="router.push({name:'Login'})">去登录</van-button>

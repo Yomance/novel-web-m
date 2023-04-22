@@ -31,6 +31,10 @@ export const useUserStore = defineStore({
         coinStr():string{
             if (!<boolean>this.isLogin){
                 return "-";
+            }
+            return this.purse.coin+"";
+            if (!<boolean>this.isLogin){
+                return "-";
             } else if (this.purse.coin < 1000){
                 return this.purse.coin+"";
             } else if (this.purse.coin < 10000){

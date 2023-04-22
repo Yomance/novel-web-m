@@ -47,7 +47,7 @@ function to(){
     router.push({name:"ToAuthorDetail"});
     return;
   }else if (log.value?.state === AuthorAuditState.suc){
-    showDialog({ title:"访问一下链接开始写作", message: 'https://www.baidu.com' });
+    showDialog({ title:"访问一下链接开始写作", message: 'http://localhost:5177/' });
   }else {
     router.push({name:"ToAuthorFrom"});
   }
