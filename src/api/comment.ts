@@ -15,6 +15,9 @@ export const page = (
 )=>
     http.get<Page<any>>("/comment/page", {params:{current, chapterId,segmentId, replyId}});
 
+export const selfPage = (current:number)=>
+    http.get<Page<any>>("/comment/selfPage", {params:{current}});
+
 export const addComment = (
     bookId: string,
     chapterId: string,
