@@ -101,6 +101,10 @@ const routes: RouteRecordRaw[] = [
     path: "/selfComment",
     name: "SelfComment",
     component: () => import("../views/self-comment/index.vue"),
+  },{
+    path: "/selfCommentInfo/:id",
+    name: "SelfCommentInfo",
+    component: () => import("../views/self-comment-info/index.vue"),
   }
 ];
 
