@@ -11,7 +11,7 @@
       @load="onLoad"
       v-else>
     <van-swipe-cell v-for="(item, i) in list" >
-      <van-cell>
+      <van-cell :to="'/selfCommentInfo/'+item.id">
         <template #title>
           <p class="van-ellipsis">{{item.content}}</p>
         </template>

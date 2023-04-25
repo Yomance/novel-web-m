@@ -2,12 +2,12 @@
   <van-nav-bar title="评论详情" placeholder left-arrow @click-left="router.back()"/>
   <div class="self-comment-info">
     <van-empty description="暂无阅读数据" v-if="!data"/>
-    <van-space direction="vertical" fill :size="16">
+    <van-space v-show="data.id" direction="vertical" fill :size="16">
       <div class="book">
         <img :src="data.bookCover" alt="">
         <div class="text">
           <p>{{data.bookName}}</p>
-          <p style="color: #777777; font-size: 14px">{{data.chapterName}} > </p>
+          <p style="color: #777777; font-size: 14px" @click="router.push('/read?bid='+data.bookId+'&cid='+data.chapterId)">{{data.chapterName}} > </p>
         </div>
       </div>
       <div class="van-hairline--top" style="margin: 16px 0"></div>
@@ -26,7 +26,7 @@ import {showConfirmDialog, showFailToast, showLoadingToast, showSuccessToast} fr
 const router = useRouter();
 const route = useRoute();
 const commentId:string = <string>route.params.id;
-const data = ref({});
+const data = ref<any>({});
 const toast = showLoadingToast({message:"加载中", duration: 0, mask:true});
 info(commentId).then(e=>{
   data.value = e;
