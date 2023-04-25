@@ -30,26 +30,28 @@ const bookStore = useBookStore();
 
 function buy() {
   needLogin(() => {
-    const toast = showLoadingToast({
-      message: '购买中...',
-      forbidClick: true,
-      duration: 0,
-    });
-    buyChapter(chapterStore.bookId, chapterStore.chapterId)
-        .then(e => {
-          toast.message = "获取章节内容...";
-          chapterStore.loadChapter()
-              .then(e => bookStore.buyList.add(e.id))
-              .finally(() => toast.close());
-        }).catch(({message, code}) => {
-      if (code === 4100) {
-        showConfirmDialog({message, confirmButtonText: "去充值"}).then(e => router.push({name: "Pay"}));
-      } else {
-        showDialog({message});
-      }
-      toast.close();
-    });
-  })
+    showConfirmDialog({message:"购买本章即可阅读",}).then(()=>{
+        const toast = showLoadingToast({
+          message: '购买中...',
+          forbidClick: true,
+          duration: 0,
+        });
+        buyChapter(chapterStore.bookId, chapterStore.chapterId)
+            .then(e => {
+              toast.message = "获取章节内容...";
+              chapterStore.loadChapter()
+                  .then(e => bookStore.buyList.add(e.id))
+                  .finally(() => toast.close());
+            }).catch(({message, code}) => {
+          if (code === 4100) {
+            showConfirmDialog({message, confirmButtonText: "去充值"}).then(e => router.push({name: "Pay"}));
+          } else {
+            showDialog({message});
+          }
+          toast.close();
+        });
+      })
+    })
 }
 
 
