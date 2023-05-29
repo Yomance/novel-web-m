@@ -42,7 +42,7 @@ const isEmpty = ref(false);
 let currentPage = 1;
 const onLoad = ()=>{
   selfPage(currentPage).then(e=>{
-    finished.value = e.totalPage === currentPage
+    finished.value = (e.totalPage === currentPage) || (e.data.length==0) || (currentPage == 0)
     currentPage = e.current+1;
     list.push(...e.data);
   }).catch(e=>{
