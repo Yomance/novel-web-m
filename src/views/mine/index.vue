@@ -52,7 +52,7 @@ import {signIn} from "../../api/activity";
 import {url} from "/src/util/file";
 const store = useUserStore();
 const router = useRouter();
-
+store.loadUserInfo();
 const onSignIn = ()=>{
   signIn().then((e:any)=>{
     showToast("签到成功！");
