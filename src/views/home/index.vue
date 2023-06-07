@@ -34,10 +34,10 @@
             placeholder="请输入搜索关键词"
             @click="router.push({name: 'Search'})"
         />
-        <home-card :books="hot" desc="根据你的喜好推荐" title="全网爆款"/>
-        <home-card :books="newBook" desc="最近新上架的好书" title="新书推荐"/>
-        <home-card :books="recommend" desc="根据你的喜好推荐" title="完本推荐"/>
-        <home-card :books="random" desc="根据你的喜好推荐" title="猜你喜欢"/>
+        <home-card v-if="hot && hot.length" :books="hot" desc="根据你的喜好推荐" title="全网爆款"/>
+        <home-card v-if="newBook && newBook.length" :books="newBook" desc="最近新上架的好书" title="新书推荐"/>
+        <home-card v-if="recommend && recommend.length" :books="recommend" desc="根据你的喜好推荐" title="完本推荐"/>
+        <home-card v-if="random && random.length" :books="random" desc="根据你的喜好推荐" title="猜你喜欢"/>
       </van-space>
     </van-list>
   </van-pull-refresh>
