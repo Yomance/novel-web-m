@@ -18,7 +18,15 @@ const props = defineProps({
 });
 
 const onBannerClick = (banner: Banner) => {
-  // todo banner点击事件
+  const {src} = banner;
+  if (!src){
+    return;
+  }
+  if (src.startsWith("http") || src.startsWith("//")) {
+    window.open(src);
+    return;
+  }
+  window.location.href = src;
 }
 </script>
 
