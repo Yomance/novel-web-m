@@ -1,7 +1,7 @@
 <template>
   <div class="buy">
     <div class="btn  gap-y-18">
-      <van-button @click="buy" type="danger" round block>充值订阅本章：15金币</van-button>
+      <van-button @click="buy" type="danger" round block>充值订阅本章：{{ chapterStore.chapter.price }}金币</van-button>
       <!--      <van-button type="primary" style="margin-top: 16px" round block>签到领金币</van-button>-->
       <div class="ch">
         <van-button type="primary" style="margin-top: 16px" round :disabled="!chapterStore.hasLast"
