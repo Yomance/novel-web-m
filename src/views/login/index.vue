@@ -4,7 +4,8 @@
       <van-cell-group inset>
         <van-field
             v-model="param.phone"
-            :rules="[{ required: true, message: '请填写手机号' }]"
+            :rules="[{ required: true, message: '请填写正确手机号', pattern: /^1[3-9]\d{9}$/}]"
+            :maxlength="11"
             label="手机号"
             name="phone"
             placeholder="手机号"
