@@ -22,8 +22,6 @@ jobs:
 
     - name: Build 🚀
       run: |
-        pwd
-        ls
         npm install
         npm run build
 
@@ -31,8 +29,6 @@ jobs:
       uses: s0/git-publish-subdir-action@master
       run: |
         cd m
-        pwd
-        ls
         git init
         git add .
         git commit -m ''
