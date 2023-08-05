@@ -38,4 +38,5 @@ jobs:
         git commit -m 'actions auto commit.'
         git push -u
     - name: finish 💯
-      run:
+      run: |
+        echo "finish 💯"
