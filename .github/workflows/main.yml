@@ -29,6 +29,8 @@ jobs:
       run: |
         ls
         cd dist
+        git config --global user.email "actions@actions.com"
+        git config --global user.name "actions"
         git init
         git add .
         git commit -m ''
