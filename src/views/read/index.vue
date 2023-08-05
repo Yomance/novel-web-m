@@ -31,11 +31,13 @@ import {useRoute, useRouter} from "vue-router";
 import YunComment from '../../components/comment/index.vue';
 import YunTurnPage from './src/emulation.vue';
 import {useReadSettingStore} from "/src/views/read/setting";
+import {addReadTime} from "/src/api/user";
 const settingStore = useReadSettingStore();
 const isBuy = computed(()=>{
   return chapterStore.loading || chapterStore.chapter.free || chapterStore.chapter?.isBuy
 });
 
+setTimeout(addReadTime,60500);
 const showComment = ref(false);
 const router = useRouter();
 const bookStore = useBookStore();

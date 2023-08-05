@@ -16,3 +16,6 @@ export const rename = (name:string)=>
 
 export const renameState = ()=>
     http.get<any, { first:boolean, price:number, lastTime: string }>("/user/renameState");
+
+export const addReadTime = ()=>
+    http.post("/user/add/readTime");
