@@ -105,6 +105,10 @@ const routes: RouteRecordRaw[] = [
     path: "/selfCommentInfo/:id",
     name: "SelfCommentInfo",
     component: () => import("../views/self-comment-info/index.vue"),
+  },{
+    path: "/setServerHost",
+    name: "SetServerHost",
+    component: () => import("../views/set-server-host/index.vue"),
   }
 ];
 

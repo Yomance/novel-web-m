@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
-import './assets/css/style.less';
-import 'vant/lib/index.css';
+import './style.less';
 
 import './util/extend'
 import App from './App.vue'
@@ -13,11 +12,6 @@ import VueDOMPurifyHTML from 'vue-dompurify-html'
 import piniaPluginPersist from 'pinia-plugin-persist';
 import { createPinia } from 'pinia'
 
-// vant样式
-import 'vant/es/toast/style';
-import 'vant/es/dialog/style';
-import 'vant/es/notify/style';
-import 'vant/es/image-preview/style';
 
 // mock数据
 // import "./moke/index";
