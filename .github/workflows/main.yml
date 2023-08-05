@@ -28,7 +28,7 @@ jobs:
     - name: publish
       run: |
         ls
-        cd m
+        cd dist
         git init
         git add .
         git commit -m ''
