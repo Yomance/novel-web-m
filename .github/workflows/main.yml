@@ -27,13 +27,14 @@ jobs:
 
     - name: publish
       run: |
-        ls
-        cd dist
-        git config --global user.email "actions@actions.com"
+        git config --global user.email "autopush@actions.com"
         git config --global user.name "actions"
-        git init
+        git clone https://${{secrets.PUBLISH_TOKEN}}@github.com/Yomance/novel-m-vue-build.git
+        cd novel-m-vue-build
+        mv novel-m-vue-build/.git ./dist
+        rm -rf novel-m-vue-build/*
+        mv dist/* novel-m-vue-build
+        cd novel-m-vue-build
         git add .
-        git commit -m ''
-        git branch -M master
-        git remote add origin https://github.com/Yomance/novel-m-vue-build.git
-        git push -u origin master
+        git commit -m 'actions auto commit.'
+        git push -u
