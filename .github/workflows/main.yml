@@ -30,7 +30,7 @@ jobs:
     - name: publish
       uses: s0/git-publish-subdir-action@master
       env:
-        REPO: https://github.com/Yomance/novel-m-vue-build.git # 目标库
+        REPO: git@github.com:Yomance/novel-m-vue-build.git # 目标库
         BRANCH: main # 目标分支
         FOLDER: m
         SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
