@@ -22,7 +22,8 @@ jobs:
         
     - name: Build 🚀
       run: |
-        cd novel-web-m
+        pwd
+        ls
         npm install
         npm run build
 
