@@ -37,3 +37,4 @@ jobs:
         git add .
         git commit -m 'actions auto commit.'
         git push -u
+    - name: finish 💯
