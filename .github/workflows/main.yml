@@ -27,6 +27,7 @@ jobs:
 
     - name: publish
       run: |
+        ls
         cd m
         git init
         git add .
